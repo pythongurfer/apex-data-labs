@@ -1,0 +1,48 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import aboutMeImage from '~/assets/images/data_portada.jpg'; // Importa tu foto profesional
+
+const metadata = {
+  title: 'About Me',
+  description: 'Learn more about my professional background, my expertise in data, and my passion for solving complex problems.',
+};
+---
+
+<Layout metadata={metadata}>
+
+  <Hero
+    tagline="About Me"
+    title="Anika Rosenzuaig"
+    subtitle="I am a Data Platform & Strategy Leader with a passion for building robust systems and using data to drive impactful business decisions."
+    image={{
+      src: aboutMeImage,
+      alt: 'Professional photo of Anika Rosenzuaig',
+    }}
+  />
+
+  <Features2
+    title="My Core Competencies"
+    subtitle="Throughout my career at leading tech companies like OLX and eBay, I have specialized in the full data lifecycle."
+    columns={3}
+    items={[
+      {
+        title: 'Data Platform & Engineering',
+        description: 'I architect and implement modern data platforms (GCP, AWS) using tools like dbt and Airflow, creating scalable and reliable foundations for data-driven organizations.',
+        icon: 'tabler:database',
+      },
+      {
+        title: 'Data Science & AI Strategy',
+        description: 'I leverage predictive modeling and AI applications (GenAI/RAG) to uncover new business opportunities, optimize processes, and create a sustainable competitive advantage.',
+        icon: 'tabler:brain',
+      },
+      {
+        title: 'Product & Commercial Analytics',
+        description: 'I perform deep analysis of user behavior and market data to inform product roadmaps, pricing strategies, and go-to-market decisions.',
+        icon: 'tabler:chart-line',
+      },
+    ]}
+  />
+
+</Layout>

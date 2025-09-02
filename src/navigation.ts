@@ -5,23 +5,12 @@ import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
 // ==================================================================================================
 export const headerData = {
   // Un menú de navegación limpio y plano, sin menús desplegables
+  // en headerData
   links: [
-    {
-      text: 'Services',
-      href: getPermalink('/services'), // Enlaza a tu nueva página de servicios
-    },
-    {
-      text: 'Projects',
-      href: getPermalink('/projects'), // <--- AÑADE ESTA LÍNEA
-    },
-    {
-      text: 'Articles',
-      href: '/articles', // Usa el helper para enlazar a la página principal de tus artículos
-    },
-    {
-      text: 'Contact',
-      href: getPermalink('/contact'), // Enlaza a tu página de contacto
-    },
+    { text: 'About', href: '/about' },
+    { text: 'Projects', href: '/projects' },
+    { text: 'Articles', href: '/articles' },
+    { text: 'Contact', href: '/contact' },
   ],
 
   // Eliminamos el botón de "Download"

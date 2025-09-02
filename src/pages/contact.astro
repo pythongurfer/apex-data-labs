@@ -1,62 +1,46 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import ContactUs from '~/components/widgets/Contact.astro';
+import Hero from '~/components/widgets/Hero.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
-// METADATA EDITADA
+// Updated metadata for a personal portfolio
 const metadata = {
-  title: 'Contact',
+  title: 'Contact Me',
+  description: "Let's connect. I'm available for new opportunities and collaborations.",
 };
 ---
 
 <Layout metadata={metadata}>
-  <HeroText tagline="Contact Us" title="Let's Build Your Data Strategy" />
-
-  <ContactUs
-    id="form"
-    title="Start the Conversation"
-    subtitle="Whether you have a specific project in mind or want to discuss your data challenges, I'm here to help. Send a message, and I'll get back to you shortly."
-    inputs={[
-      {
-        type: 'text',
-        name: 'name',
-        label: 'Name',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Email',
-      },
-    ]}
-    textarea={{
-      label: 'Message',
-    }}
-    disclaimer={{
-      label:
-        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
-    }}
-    description="I typically respond within 24 business hours."
+  <!-- HERO SECTION - More personal and inviting -->
+  <Hero
+    tagline="Contact"
+    title="Let's Connect"
+    subtitle="I'm always open to discussing new projects, interesting ideas, or opportunities to be part of an ambitious team. The best way to reach me is through email or LinkedIn."
   />
 
+  <!-- FEATURES2 WIDGET - Simplified to direct contact methods -->
   <Features2
     title="Get in Touch Directly"
-    columns={3}
+    columns={2}
     items={[
       {
         title: 'Email',
-        description: 'contact@apex-data.io', // <-- Reemplaza con tu email real
+        description: 'For any inquiries, collaborations, or job opportunities, please send me an email.',
         icon: 'tabler:mail',
+        callToAction: {
+          text: 'anika.rosenzuaig@gmail.com', // <-- Your actual email address
+          href: 'mailto:anika.rosenzuaig@gmail.com', // <-- Creates a clickable email link
+        },
       },
       {
         title: 'LinkedIn',
-        description: 'Connect for professional insights and updates.', // <-- Enlaza esto a tu perfil
+        description: 'Connect with me on LinkedIn to see my professional background and stay updated on my work.',
         icon: 'tabler:brand-linkedin',
-      },
-      {
-        title: 'Based In',
-        description: 'Berlin, Germany (Serving clients globally)',
-        icon: 'tabler:map-pin',
+        callToAction: {
+          text: 'View My Profile',
+          href: 'https://linkedin.com/company/apex-data-lab', // <-- IMPORTANT: Replace with your actual LinkedIn profile URL
+          target: '_blank',
+        },
       },
     ]}
   />

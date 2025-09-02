@@ -1,19 +1,27 @@
+# ==================================================================================================
+# Configuración Principal del Sitio - VERSIÓN FINAL
+# ==================================================================================================
 site:
-  name: Apex Data Labs
-  site: 'https://www.apex-data.io'
+  name: 'Apex Data Labs'
+  site: 'https://www.apex-data.io' # <-- Asegúrate de que este es tu dominio
   base: '/'
   trailingSlash: false
+  googleSiteVerificationId: ''
 
-
-# Default SEO metadata
+# ==================================================================================================
+# Metadatos por Defecto para SEO - SECCIÓN CORREGIDA
+# ==================================================================================================
 metadata:
   title:
-    default: Apex Data Labs
+    default: 'Apex Data Labs | Data Strategy & Engineering Portfolio'
     template: '%s — Apex Data Labs'
-  description: "Data strategy consulting for business growth. We help companies build robust data platforms to extract insights that propel innovation. "
+  description: "A professional portfolio showcasing projects and articles on data platforms, AI strategy, and analytics."
+  
+  # La indentación correcta es de 2 espacios aquí
   robots:
     index: true
     follow: true
+  
   openGraph:
     site_name: 'Apex Data Labs'
     images:
@@ -21,51 +29,55 @@ metadata:
         width: 1200
         height: 628
     type: website
+  
   twitter:
     handle: ''
     site: ''
     cardType: summary_large_image
 
+# ==================================================================================================
+# Idioma
+# ==================================================================================================
 i18n:
   language: en
   textDirection: ltr
 
+# ==================================================================================================
+# Configuración de la sección de Artículos
+# ==================================================================================================
 apps:
   blog:
     isEnabled: true
     postsPerPage: 6
-
     post:
       isEnabled: true
-      permalink: 'articles/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      permalink: 'articles/%slug%' # <-- Ruta corregida de un paso anterior
       robots:
         index: true
-
     list:
       isEnabled: true
-      pathname: 'articles' # Blog main path, you can change this to "articles" (/articles)
+      pathname: 'articles'
       robots:
         index: true
-
     category:
       isEnabled: true
-      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
+      pathname: 'category'
       robots:
         index: true
-
     tag:
       isEnabled: true
-      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
+      pathname: 'tag'
       robots:
         index: false
-
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
 
+# ==================================================================================================
+# Analítica y UI
+# ==================================================================================================
 analytics:
   vendors:
     googleAnalytics:
-      id: null # or "G-XXXXXXXXXX"
-
+      id: null
 ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: 'system'

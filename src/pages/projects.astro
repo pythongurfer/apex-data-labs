@@ -2,63 +2,87 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+// Importa las imágenes de tus proyectos aquí
+import aboutYouImage from '~/assets/images/project-about-you.jpg';
+import bvgImage from '~/assets/images/project-bvg.gif';
 
 const metadata = {
   title: 'Projects',
-  description: 'A portfolio of data strategy and engineering projects.',
+  description: 'A portfolio of data strategy, engineering, and AI projects.',
 };
 ---
+
 <Layout metadata={metadata}>
-    <Hero
-        tagline="Our Work"
-        title="From MVP to Impact: Real-World Case Studies"
-        subtitle="Explore how we apply data strategy, engineering, and AI to solve complex business challenges for leading companies."
-    />
 
-    <Content
-        title="Predictive Retention MVP for a Leading E-commerce Platform"
-        subtitle="A proof-of-concept developed for About You's retention challenges."
-        items={[
-            {
-                title: 'The Challenge',
-                description: 'E-commerce platforms face significant challenges in retaining customers. Proactively identifying users at high risk of churn is critical for targeted marketing and improving lifetime value.',
-            },
-            {
-                title: 'Our Solution',
-                description: 'We developed a full-stack MVP to address this challenge. The solution included a machine learning model to predict churn probability, a REST API to serve predictions, and a simple frontend to visualize at-risk segments. The API was documented and tested for production-readiness.',
-            },
-            {
-                title: 'Impact & Results',
-                description: 'The MVP successfully demonstrated a model capable of predicting customer churn with a high degree of accuracy. This validated the feasibility of a data-driven retention strategy, showing how the company could save significant marketing budget by focusing on the right users.',
-            }
-        ]}
-        image={{
-            src: '~/assets/images/project-about-you.jpg', // <-- Consigue una imagen relevante
-            alt: 'E-commerce analytics dashboard'
-        }}
-    />
+  <Hero
+    tagline="My Work"
+    title="Featured Projects & Case Studies"
+    subtitle="Explore how I apply data strategy, engineering, and AI to solve complex business challenges."
+  />
 
-    <Content
-        isReversed
-        title="AI-Powered Chatbot for Public Transport Regulations"
-        subtitle="An independent project demonstrating a solution for Berlin's BVG."
-        items={[
-            {
-                title: 'The Challenge',
-                description: "Berlin's public transport rules are extensive and can be confusing. Finding a quick, accurate answer often requires searching through complex PDF documents, leading to a poor customer experience.",
-            },
-            {
-                title: 'Our Solution',
-                description: "We built a proof-of-concept using a RAG (Retrieval-Augmented Generation) architecture. The system ingests official BVG rule documents into a vector database and allows users to ask questions in natural language via a simple web interface.",
-            },
-            {
-                title: 'Impact & Results',
-                description: "The prototype successfully answered complex queries like 'Can I take my bike on the S-Bahn at 8 am on a weekday?', providing instant, cited answers. This demonstrated a clear path to improving customer experience and reducing the burden on support teams.",
-            }
-        ]}
-        image={{
-            src: '~/assets/images/project-bvg.jpg', // <-- Consigue una imagen relevante
-            alt: 'Chatbot interface'
-        }}
-    />
+  <Content
+    title="Predictive Retention MVP for a Leading E-commerce Platform"
+    subtitle="An independent project I developed to solve customer retention challenges for About You."
+    items={[
+      {
+        title: 'The Challenge',
+        description: 'E-commerce platforms face significant challenges in retaining customers. Proactively identifying users at high risk of churn is critical for targeted marketing and improving customer lifetime value.',
+      },
+      {
+        title: 'My Solution',
+        description: 'I architected and built a full-stack MVP, including a Python-based machine learning model (XGBoost) to predict churn probability, a FastAPI REST API to serve predictions, and a simple React frontend to visualize at-risk user segments. The API was fully documented and tested for production-readiness.',
+      },
+      {
+        title: 'Impact & Results',
+        description: 'My model demonstrated a strong predictive power, capable of identifying at-risk customers with over 85% accuracy (AUC). This validated the feasibility of a data-driven retention strategy, enabling a potential 15-20% reduction in untargeted marketing spend.',
+      },
+      {
+        title: 'Key Technologies',
+        description: 'Python (Scikit-learn, Pandas, XGBoost), FastAPI, React, Docker.',
+        icon: 'tabler:code',
+      },
+    ]}
+    image={{
+      src: aboutYouImage,
+      alt: 'E-commerce analytics dashboard'
+    }}
+  />
+
+  <Content
+    isReversed
+    title="AI-Powered Chatbot for Public Transport Regulations"
+    subtitle="A self-initiated project to demonstrate a GenAI solution for Berlin's BVG."
+    items={[
+      {
+        title: 'The Challenge',
+        description: "Berlin's public transport rules are extensive and can be confusing. Finding a quick, accurate answer often requires searching through complex PDF documents, leading to a poor customer experience.",
+      },
+      {
+        title: 'My Solution',
+        description: "I built a proof-of-concept using a RAG (Retrieval-Augmented Generation) architecture. The system ingests official BVG rule documents into a FAISS vector database. A Flask API exposes the backend, allowing a Streamlit-based web interface to ask questions in natural language.",
+      },
+      {
+        title: 'Impact & Results',
+        description: "The prototype successfully answered complex queries like 'Can I take my bike on the S-Bahn at 8 am on a weekday?', providing instant, cited answers. This demonstrated a clear path to significantly improving user experience and reducing the burden on support teams.",
+      },
+      {
+        title: 'Key Technologies',
+        description: 'Python (LangChain, Transformers), FAISS (Vector DB), Flask, Streamlit.',
+        icon: 'tabler:code',
+      },
+    ]}
+    image={{
+      src: bvgImage,
+      alt: 'Chatbot interface'
+    }}
+  />
+
+  <CallToAction
+    title="Interested in my work?"
+    subtitle="Let's connect and discuss how my skills and experience can bring value to your team."
+    actions={[{ variant: 'primary', text: 'Get in Touch', href: '/contact' }]}
+  />
+
 </Layout>
