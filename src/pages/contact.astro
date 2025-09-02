@@ -11,14 +11,12 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO SECTION - More personal and inviting -->
   <Hero
     tagline="Contact"
     title="Let's Connect"
     subtitle="I'm always open to discussing new projects, interesting ideas, or opportunities to be part of an ambitious team. The best way to reach me is through email or LinkedIn."
   />
 
-  <!-- FEATURES2 WIDGET - Simplified to direct contact methods -->
   <Features2
     title="Get in Touch Directly"
     columns={2}
@@ -28,8 +26,11 @@ const metadata = {
         description: 'For any inquiries, collaborations, or job opportunities, please send me an email.',
         icon: 'tabler:mail',
         callToAction: {
-          text: 'anika.rosenzuaig@gmail.com', // <-- Your actual email address
-          href: 'mailto:anika.rosenzuaig@gmail.com', // <-- Creates a clickable email link
+          // =======================================================================
+          // ▼▼▼ CAMBIOS REALIZADOS AQUÍ ▼▼▼
+          // =======================================================================
+          text: 'contact@apexdatalabs.de', 
+          href: 'mailto:contact@apexdatalabs.de',
         },
       },
       {
@@ -38,7 +39,7 @@ const metadata = {
         icon: 'tabler:brand-linkedin',
         callToAction: {
           text: 'View My Profile',
-          href: 'https://linkedin.com/company/apex-data-lab', // <-- IMPORTANT: Replace with your actual LinkedIn profile URL
+          href: 'https://www.linkedin.com/in/anikarosenzuaig/', // <-- He actualizado esto a un enlace de perfil personal, que es más apropiado
           target: '_blank',
         },
       },

@@ -2,39 +2,41 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-import aboutMeImage from '~/assets/images/business_consulting_concept.jpg'; // Importa tu foto profesional
+import { getCollection } from 'astro:content';
+import heroMainImage from '~/assets/images/data_stairs.jpg';
 
-const metadata = {
-  title: 'About Me',
-  description: 'Learn more about my professional background, my expertise in data, and my passion for solving complex problems.',
-};
+const posts = (await getCollection('post'))
+  .filter((post) => post.data.draft !== true)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
-<Layout metadata={metadata}>
-
+<Layout>
   <Hero
-    tagline="About Me"
     title="Anika Rosenzuaig"
-    subtitle="I am a Data Leader with a passion for building robust systems and using data to drive impactful business decisions."
+    subtitle="Data Science & Analytics Leader. I build high-performing data teams and develop strategies that turn complex data into business value. This is my professional portfolio."
+    actions={[
+        { text: 'Explore My Projects', href: '/projects', variant: 'primary' }, 
+        { text: 'Read My Articles', href: '/articles' }
+    ]}
     image={{
-      src: aboutMeImage,
-      alt: 'Professional photo of Anika Rosenzuaig',
+      src: heroMainImage,
+      alt: 'Data strategy concept image',
     }}
   />
 
   <Features2
-    title="My Core Competencies"
-    subtitle="Throughout my career at leading tech companies like OLX and eBay, I have specialized in the full data lifecycle."
+    title="My Core Expertise"
+    subtitle="My work is focused on three key pillars to deliver business value across the entire data lifecycle."
     columns={3}
     items={[
       {
         title: 'Data Platform & Engineering',
-        description: 'I architect and implement modern data platforms (GCP, AWS) using tools like dbt and Airflow, creating scalable and reliable foundations for data-driven organizations.',
+        description: 'I design and implement modern data platforms (GCP, AWS) using best-in-class tools like dbt and Airflow, building scalable foundations for data-driven organizations.',
         icon: 'tabler:database',
       },
       {
         title: 'Data Science & AI Strategy',
-        description: 'I leverage predictive modeling and AI applications (GenAI/RAG) to uncover new business opportunities, optimize processes, and create a sustainable competitive advantage.',
+        description: 'I leverage predictive modeling and modern AI applications (GenAI/RAG) to uncover new business opportunities and create a competitive advantage.',
         icon: 'tabler:brain',
       },
       {
@@ -45,4 +47,26 @@ const metadata = {
     ]}
   />
 
+  <section class="section py-20 bg-gray-50 dark:bg-slate-800">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-2">My Latest Articles & Analysis</h2>
+      <p class="text-center text-gray-600 dark:text-gray-400 mb-12">
+        Here I share my thoughts, frameworks, and best practices on data strategy and engineering.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {posts.slice(0, 3).map((post) => (
+          <a href={`/articles/${post.slug}`} class="block border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:border-blue-600 transition bg-white dark:bg-slate-900 h-full">
+            {post.data.image && (
+              <img src={post.data.image} alt={post.data.title || ''} class="rounded-md mb-4 w-full h-40 object-cover" />
+            )}
+            <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>
+          </a>
+        ))}
+      </div>
+      <div class="text-center mt-12">
+        <a href="/articles" class="btn">View all articles →</a>
+      </div>
+    </div>
+  </section>
 </Layout>
