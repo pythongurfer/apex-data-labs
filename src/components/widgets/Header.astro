@@ -15,7 +15,7 @@ const { links = [] } = headerData;
                 </span>
             </a>
 
-            <nav class="hidden md:flex">
+            <nav class="hidden md:flex items-center">
                 <ul class="flex items-center space-x-6">
                     {links.map(link => (
                         <li>
@@ -24,6 +24,33 @@ const { links = [] } = headerData;
                     ))}
                 </ul>
             </nav>
-        </div>
+
+            <div class="md:hidden">
+                <button id="hamburger-button" class="p-2 -mr-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h16"></path></svg>
+                </button>
+            </div>
+            </div>
     </div>
 </header>
+
+<div id="mobile-menu" class="hidden md:hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        {links.map(link => (
+            <a href={link.href} class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800">{link.text}</a>
+        ))}
+    </div>
+</div>
+<script>
+    // Selecciona el botón por su ID
+    const hamburgerButton = document.getElementById('hamburger-button');
+    // Selecciona el panel del menú móvil por su ID
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Añade un evento que se activa cuando se hace clic en el botón
+    hamburgerButton.addEventListener('click', () => {
+        // Alterna (toggle) la clase 'hidden' en el menú móvil
+        // Si el menú está oculto, lo muestra. Si se está mostrando, lo oculta.
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
