@@ -1,30 +1,29 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: Apex Data Labs
+  site: 'https://www.apex-data.io'
   base: '/'
   trailingSlash: false
 
-  googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
 
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: Apex Data Labs
+    template: '%s — Apex Data Labs'
+  description: "Data strategy consulting for business growth. We help companies build robust data platforms to extract insights that propel innovation. "
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: 'Apex Data Labs'
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/social.png'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@arthelokyo'
-    site: '@arthelokyo'
+    handle: ''
+    site: ''
     cardType: summary_large_image
 
 i18n:
@@ -44,7 +43,7 @@ apps:
 
     list:
       isEnabled: true
-      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
+      pathname: 'articles' # Blog main path, you can change this to "articles" (/articles)
       robots:
         index: true
 
