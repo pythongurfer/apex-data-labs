@@ -43,7 +43,7 @@ export const footerData = {
 
   // Actualiza esto con tus enlaces reales cuando los tengas
   socialLinks: [
-    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'linkedin.com/company/apex-data-lab' }, // <-- Pon aquí el link a tu página de compañía de LinkedIn
+    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://linkedin.com/company/apex-data-lab' }, // <-- Pon aquí el link a tu página de compañía de LinkedIn
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/pythongurfer/apex-data-labs' }, // <-- Link a tu GitHub
   ],
 
