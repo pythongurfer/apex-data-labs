@@ -11,8 +11,12 @@ export const headerData = {
       href: getPermalink('/services'), // Enlaza a tu nueva página de servicios
     },
     {
+      text: 'Projects',
+      href: getPermalink('/projects'), // <--- AÑADE ESTA LÍNEA
+    },
+    {
       text: 'Articles',
-      href: getBlogPermalink(), // Usa el helper para enlazar a la página principal de tus artículos
+      href: '/articles', // Usa el helper para enlazar a la página principal de tus artículos
     },
     {
       text: 'Contact',
@@ -39,7 +43,7 @@ export const footerData = {
 
   // Actualiza esto con tus enlaces reales cuando los tengas
   socialLinks: [
-    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '#' }, // <-- Pon aquí el link a tu página de compañía de LinkedIn
+    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'linkedin.com/company/apex-data-lab' }, // <-- Pon aquí el link a tu página de compañía de LinkedIn
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/pythongurfer/apex-data-labs' }, // <-- Link a tu GitHub
   ],
 

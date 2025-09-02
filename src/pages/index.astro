@@ -1,59 +1,62 @@
 ---
-// We import the components we'll use on the page
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro'; 
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import heroMainImage from '~/assets/images/data_stairs.jpg'; // <-- ¡IMPORTA AQUÍ TU IMAGEN PRINCIPAL DEL HERO!
+
+
+
+const posts = (await getCollection('post'))
+  .filter((post) => post.data.draft !== true)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
 <Layout>
-    <Hero
-      title="Turn Your Data into a Competitive Advantage"
-      subtitle="We help companies build robust data platforms and extract strategic insights that drive growth and innovation."
-    >
-      <Fragment slot="actions">
-        <a class="btn btn-primary" href="/contact">Discuss Your Data Strategy →</a>
-      </Fragment>
-    </Hero>
+  <Hero
+    title="Turn Your Data into a Competitive Advantage"
+    subtitle="We help companies build robust data platforms and extract strategic insights that drive growth and innovation."
+    actions={[{ text: 'Discuss Your Data Strategy →', href: '/contact', variant: 'primary' }]}
+    image={{
+      src: heroMainImage, // <-- Usa la variable importada
+      alt: 'Data strategy meeting', // <-- Un texto alternativo descriptivo
+    }}
+  />
+  
 
-    <section class="text-center py-16">
-      <h2 class="text-xl font-bold text-gray-600 dark:text-gray-400">
-        Proven Experience at Leading Tech Companies
-      </h2>
-      <div class="flex justify-center items-center flex-wrap gap-16 mt-8">
-        <img class="h-8 grayscale opacity-60" src="/logos/olx-logo.svg" alt="OLX Logo" />
-        <img class="h-10 grayscale opacity-60" src="/logos/ebay-logo.svg" alt="eBay Logo" />
+
+  <Features2
+    title="Our Strategic Services"
+    subtitle="We focus on three key pillars to deliver business value across the entire data lifecycle."
+    columns={3}
+    items={[
+      { title: 'Data Platform & Engineering', description: 'Design and implementation of modern data platforms (GCP, AWS)...', icon: 'tabler:database' },
+      { title: 'Data Science & AI Strategy', description: 'Leveraging predictive modeling and modern AI applications (GenAI/RAG)...', icon: 'tabler:brain' },
+      { title: 'Product & Commercial Analytics', description: 'Deep analysis of user behavior and market data to inform your product roadmap...', icon: 'tabler:chart-line' },
+    ]}
+  />
+
+  <section class="section py-20 bg-gray-50 dark:bg-slate-800">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-2">Thought Leadership & Analysis</h2>
+      <p class="text-center text-gray-600 dark:text-gray-400 mb-12">
+        Here I share frameworks, best practices, and analysis on data strategy, engineering, and the business impact of AI.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {posts.slice(0, 3).map((post) => (
+          <a href={`/articles/${post.slug}`} class="block border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:border-blue-600 transition bg-white dark:bg-slate-900">
+            {post.data.image && (
+              <Image src={post.data.image} alt={post.data.title || ''} class="rounded-md mb-4 w-full h-40 object-cover" width={400} height={200} />
+            )}
+            <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>
+          </a>
+        ))}
       </div>
-    </section>
-
-    <Features2
-        title="Our Strategic Services"
-        subtitle="We focus on three key pillars to deliver business value across the entire data lifecycle."
-        columns={3}
-        items={[
-          {
-            title: 'Data Platform & Engineering',
-            description:
-              'Design and implementation of modern data platforms (GCP, AWS) using best-in-class tools like dbt and Airflow. We build the scalable, reliable foundation that serves as your single source of truth.',
-            icon: 'tabler:database',
-          },
-          {
-            title: 'Data Science & AI Strategy',
-            description:
-              'Leveraging predictive modeling and modern AI applications (GenAI/RAG) to uncover new business opportunities, optimize processes, and create a competitive advantage.',
-            icon: 'tabler:brain',
-          },
-          {
-            title: 'Product & Commercial Analytics',
-            description:
-              'Deep analysis of user behavior and market data to inform your product roadmap, pricing strategies, and go-to-market decisions, ensuring every move is data-driven.',
-            icon: 'tabler:chart-line',
-          },
-        ]}
-    />
-
-    <BlogLatestPosts
-    title="Thought Leadership & Analysis"
-    information={`Here I share frameworks, best practices, and analysis on data strategy, engineering, and the business impact of AI.`}
-/>
+      <div class="text-center mt-12">
+        <a href="/articles" class="btn">View all articles →</a>
+      </div>
+    </div>
+  </section>
 </Layout>

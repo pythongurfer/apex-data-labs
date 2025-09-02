@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { headerData } from '~/navigation'; // Importa los links del menú
+import logoImage from '~/assets/images/logo.png'; 
 
 const { links = [] } = headerData;
 ---
@@ -8,7 +9,7 @@ const { links = [] } = headerData;
     <div class="py-3 px-4 mx-auto max-w-7xl">
         <div class="flex justify-between items-center">
             <a class="flex items-center" href="/">
-                <Image src={'~/assets/images/logo.png'} alt="Apex Data Labs Logo" width={40} height={40} class="mr-2" />
+                <Image src={logoImage} alt="Apex Data Labs Logo" width={40} height={40} class="mr-2" />
                 <span class="self-center text-xl font-bold whitespace-nowrap dark:text-white">
                     Apex Data Labs
                 </span>

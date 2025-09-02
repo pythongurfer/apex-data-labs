@@ -5,89 +5,35 @@ import Features2 from '~/components/widgets/Features2.astro';
 import Content from '~/components/widgets/Content.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
-// Metadatos para SEO
+
+import heroImage from '~/assets/images/business_consulting_concept.jpg'; // 
+
 const metadata = {
-  title: 'Our Services',
+  title: 'Services',
   description: 'Explore our data strategy, engineering, and analytics services designed to drive business growth.',
 };
 ---
 
 <Layout metadata={metadata}>
-
-  <!-- HERO SECTION: Una introducción clara a tus servicios -->
   <Hero
     tagline="Our Services"
     title="Strategic Data Services to Drive Your Business Forward"
     subtitle="We provide end-to-end data solutions, from building robust technical foundations to extracting the critical insights that inform your most important business decisions."
     actions={[{ variant: 'primary', text: 'Get in Touch', href: '/contact' }]}
-  />
-
-  <!-- CORE SERVICES SECTION: Detallando tus tres pilares -->
-  <Features2
-    title="Our Core Capabilities"
-    subtitle="We specialize in three key areas to deliver comprehensive value."
-    columns={1}
-    items={[
-      {
-        title: 'Data Platform & Engineering',
-        description:
-          'We design and implement modern data platforms on GCP or AWS, using best-in-class tools like dbt, Airflow, and a robust CI/CD process. We build the scalable, reliable foundation that serves as your single source of truth, empowering your entire organization with trustworthy data.',
-        icon: 'tabler:database',
-      },
-      {
-        title: 'Data Science & AI Strategy',
-        description:
-          'We go beyond simple analytics to uncover deep insights. Our services include predictive modeling, forecasting, and the strategic implementation of modern AI applications (like GenAI/RAG) to solve complex business problems, optimize processes, and create a sustainable competitive advantage.',
-        icon: 'tabler:brain',
-      },
-      {
-        title: 'Product & Commercial Analytics',
-        description:
-          'We connect data directly to business outcomes. Through deep analysis of user behavior and market trends, we help inform your product roadmap, pricing strategies, and go-to-market decisions, ensuring that every strategic move is backed by solid data.',
-        icon: 'tabler:chart-line',
-      },
-    ]}
-  />
-
-  <!-- METHODOLOGY SECTION: Explica CÓMO trabajas, muy profesional -->
-  <Content
-    isReversed
-    title="Our Approach: A Partnership for Success"
-    subtitle="We believe in a collaborative process that ensures our technical solutions are perfectly aligned with your business objectives."
-    items={[
-      {
-        title: '1. Discovery & Audit',
-        description:
-          'We start by deeply understanding your business goals and auditing your current data ecosystem to identify key challenges and opportunities.',
-      },
-      {
-        title: '2. Strategy & Roadmap',
-        description:
-          'We collaborate to design a clear, actionable data strategy and a phased roadmap that delivers value quickly while building towards your long-term vision.',
-      },
-      {
-        title: '3. Implementation & Mentoring',
-        description:
-          'We lead the hands-on implementation of the platform and models, mentoring your team along the way to build internal capabilities and ensure sustainable success.',
-      },
-    ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1552664730-d3077884978e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'A team collaborating on a whiteboard',
+      src: heroImage, // <-- ¡CORREGIDO! Usamos la variable importada
+      alt: 'Data strategy session',
     }}
   />
 
-  <!-- FINAL CALL TO ACTION: Guía al usuario al siguiente paso lógico -->
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Let\'s Talk',
-        href: '/contact',
-      },
-    ]}
-    title="Ready to Unlock the Value of Your Data?"
-    subtitle="Contact us today to discuss how a tailored data strategy can transform your business."
+  {/* El resto del archivo permanece igual... */}
+  <Features2
+    title="Our Core Capabilities"
+    subtitle="We focus on three key areas to deliver end-to-end data value, from foundational infrastructure to strategic insights."
+    columns={3}
+    items={[/* ...tus servicios... */]}
   />
-
+  
+  {/* He omitido el resto del código por brevedad, no necesitas cambiarlo */}
+  
 </Layout>

@@ -1,0 +1,64 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+
+const metadata = {
+  title: 'Projects',
+  description: 'A portfolio of data strategy and engineering projects.',
+};
+---
+<Layout metadata={metadata}>
+    <Hero
+        tagline="Our Work"
+        title="From MVP to Impact: Real-World Case Studies"
+        subtitle="Explore how we apply data strategy, engineering, and AI to solve complex business challenges for leading companies."
+    />
+
+    <Content
+        title="Predictive Retention MVP for a Leading E-commerce Platform"
+        subtitle="A proof-of-concept developed for About You's retention challenges."
+        items={[
+            {
+                title: 'The Challenge',
+                description: 'E-commerce platforms face significant challenges in retaining customers. Proactively identifying users at high risk of churn is critical for targeted marketing and improving lifetime value.',
+            },
+            {
+                title: 'Our Solution',
+                description: 'We developed a full-stack MVP to address this challenge. The solution included a machine learning model to predict churn probability, a REST API to serve predictions, and a simple frontend to visualize at-risk segments. The API was documented and tested for production-readiness.',
+            },
+            {
+                title: 'Impact & Results',
+                description: 'The MVP successfully demonstrated a model capable of predicting customer churn with a high degree of accuracy. This validated the feasibility of a data-driven retention strategy, showing how the company could save significant marketing budget by focusing on the right users.',
+            }
+        ]}
+        image={{
+            src: '~/assets/images/project-about-you.jpg', // <-- Consigue una imagen relevante
+            alt: 'E-commerce analytics dashboard'
+        }}
+    />
+
+    <Content
+        isReversed
+        title="AI-Powered Chatbot for Public Transport Regulations"
+        subtitle="An independent project demonstrating a solution for Berlin's BVG."
+        items={[
+            {
+                title: 'The Challenge',
+                description: "Berlin's public transport rules are extensive and can be confusing. Finding a quick, accurate answer often requires searching through complex PDF documents, leading to a poor customer experience.",
+            },
+            {
+                title: 'Our Solution',
+                description: "We built a proof-of-concept using a RAG (Retrieval-Augmented Generation) architecture. The system ingests official BVG rule documents into a vector database and allows users to ask questions in natural language via a simple web interface.",
+            },
+            {
+                title: 'Impact & Results',
+                description: "The prototype successfully answered complex queries like 'Can I take my bike on the S-Bahn at 8 am on a weekday?', providing instant, cited answers. This demonstrated a clear path to improving customer experience and reducing the burden on support teams.",
+            }
+        ]}
+        image={{
+            src: '~/assets/images/project-bvg.jpg', // <-- Consigue una imagen relevante
+            alt: 'Chatbot interface'
+        }}
+    />
+</Layout>
