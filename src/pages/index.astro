@@ -2,11 +2,8 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import heroMainImage from '~/assets/images/data_stairs.jpg'; // <-- ¡IMPORTA AQUÍ TU IMAGEN PRINCIPAL DEL HERO!
-
-
+import heroMainImage from '~/assets/images/data_stairs.jpg'; // Asegúrate de que esta imagen exista
 
 const posts = (await getCollection('post'))
   .filter((post) => post.data.draft !== true)
@@ -19,12 +16,10 @@ const posts = (await getCollection('post'))
     subtitle="We help companies build robust data platforms and extract strategic insights that drive growth and innovation."
     actions={[{ text: 'Discuss Your Data Strategy →', href: '/contact', variant: 'primary' }]}
     image={{
-      src: heroMainImage, // <-- Usa la variable importada
-      alt: 'Data strategy meeting', // <-- Un texto alternativo descriptivo
+      src: heroMainImage,
+      alt: 'Data strategy meeting',
     }}
   />
-  
-
 
   <Features2
     title="Our Strategic Services"
@@ -45,9 +40,9 @@ const posts = (await getCollection('post'))
       </p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {posts.slice(0, 3).map((post) => (
-          <a href={`/articles/${post.slug}`} class="block border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:border-blue-600 transition bg-white dark:bg-slate-900">
+          <a href={`/articles/${post.slug}`} class="block border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:border-blue-600 transition bg-white dark:bg-slate-900 h-full">
             {post.data.image && (
-              <Image src={post.data.image} alt={post.data.title || ''} class="rounded-md mb-4 w-full h-40 object-cover" width={400} height={200} />
+              <img src={post.data.image} alt={post.data.title || ''} class="rounded-md mb-4 w-full h-40 object-cover" />
             )}
             <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
             <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>

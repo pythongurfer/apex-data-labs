@@ -1,4 +1,3 @@
-
 ---
 publishDate: '2025-08-01T10:00:00Z'
 title: 'Beyond Dashboards: The 3 Levels of Data Maturity in E-commerce'
@@ -7,8 +6,9 @@ category: 'Strategy'
 tags:
   - data strategy
   - e-commerce
-image: '~/assets/images/data-maturity-hero.jpg' 
+image: '/images/articles/article_dashboards.jpg'
 draft: false
+layout: '~/layouts/PostLayout.astro'
 ---
 
 Many companies believe "being data-driven" means having a lot of dashboards. But dashboards only tell you what happened yesterday; they don't help you win tomorrow. True data maturity is measured by how decisions are made.

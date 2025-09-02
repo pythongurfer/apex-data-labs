@@ -1,52 +1,52 @@
 ---
-import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-
 import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
 import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-// import PostTags from "~/components/blog/Tags.astro";
-
-import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
 
 export const prerender = true;
 
 export const getStaticPaths = (async ({ paginate }) => {
-  return await getStaticPathsBlogList({ paginate });
+  const posts = (await getCollection('post'))
+    .filter((post) => post.data.draft !== true)
+    .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+  
+  return paginate(posts, { pageSize: 6 });
 }) satisfies GetStaticPaths;
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { page } = Astro.props as Props;
-const currentPage = page.currentPage ?? 1;
-
-// const allCategories = await findCategories();
-// const allTags = await findTags();
+const { page } = Astro.props;
 
 const metadata = {
-  title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  robots: {
-    index: blogListRobots?.index && currentPage === 1,
-    follow: blogListRobots?.follow,
-  },
-  openGraph: {
-    type: 'blog',
-  },
+  title: 'Articles',
+  description: 'A collection of frameworks, best practices, and thoughts on the world of data.',
 };
 ---
 
 <Layout metadata={metadata}>
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
     <Headline
-      subtitle="A statically generated blog example with news, tutorials, resources and other interesting content related to AstroWind"
-    >
-      The Blog
-    </Headline>
-    <BlogList posts={page.data} />
+      tagline="Thought Leadership"
+      title="Articles & Analysis"
+      subtitle={metadata.description}
+    />
+    
+    <ul class="grid gap-8">
+      {page.data.map((post) => (
+        <li class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <a href={`/articles/${post.slug}`}>
+            {post.data.image && (
+              <img src={post.data.image} alt={post.data.title} class="w-full h-auto" />
+            )}
+            <div class="p-6">
+              <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
+              <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+    
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-    <!--
-      <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
-      <PostTags tags={allTags}  title="Search by Tags:" />
-    -->
   </section>
 </Layout>
