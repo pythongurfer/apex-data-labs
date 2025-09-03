@@ -18,16 +18,16 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const metadata = {
-  title: 'Articles',
-  description: 'A collection of frameworks, best practices, and thoughts on the world of data.',
+  title: 'Articles & Case Studies',
+  description: 'A collection of frameworks, best practices, and real-world case studies on data.',
 };
 ---
 
 <Layout metadata={metadata}>
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
     <Headline
-      tagline="Thought Leadership"
-      title="Articles & Analysis"
+      tagline="Data Strategy & Execution"
+      title="Articles & Case Studies"
       subtitle={metadata.description}
     />
     
