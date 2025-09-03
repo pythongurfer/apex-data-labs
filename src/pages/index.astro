@@ -49,9 +49,9 @@ const posts = (await getCollection('post'))
 
   <section class="section py-20 bg-gray-50 dark:bg-slate-800">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-2">My Latest Articles & Analysis</h2>
+      <h2 class="text-3xl font-bold text-center mb-2">Articles & Case Studies</h2>
       <p class="text-center text-gray-600 dark:text-gray-400 mb-12">
-        Here I share my thoughts, frameworks, and best practices on data strategy and engineering.
+        Here are some examples of how I solve real-world business problems using data.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {posts.slice(0, 3).map((post) => (
