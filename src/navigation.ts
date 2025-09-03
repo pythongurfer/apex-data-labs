@@ -9,7 +9,7 @@ export const headerData = {
   links: [
     { text: 'About', href: '/about' },
     { text: 'Projects', href: '/projects' },
-    { text: 'Articles', href: '/articles' },
+    { text: 'Articles & Case Studies', href: '/articles' },
     { text: 'Contact', href: '/contact' },
   ],
 
