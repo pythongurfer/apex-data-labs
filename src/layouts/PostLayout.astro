@@ -9,6 +9,29 @@ const metadata = {
   description: frontmatter.excerpt,
 };
 ---
+<script type="application/ld+json" is:inline set:html={`
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "${frontmatter.title}",
+    "description": "${frontmatter.excerpt}",
+    "datePublished": "${frontmatter.publishDate}",
+    "image": "${Astro.url.origin}${frontmatter.image}",
+    "author": {
+      "@type": "Person",
+      "name": "Anika Rosenzuaig",
+      "url": "${Astro.url.origin}/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Apex Data Labs",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "${Astro.url.origin}/favicon.svg" 
+      }
+    }
+  }
+`} />
 <Layout metadata={metadata}>
   <section class="py-16 sm:py-20">
     <div class="container mx-auto max-w-3xl px-4">
@@ -24,7 +47,7 @@ const metadata = {
       {frontmatter.image && (
         <img 
           src={frontmatter.image} 
-          alt={frontmatter.title} 
+          alt={frontmatter.imageAlt || frontmatter.title} 
           class="w-full h-auto rounded-lg mb-12"
         />
       )}
