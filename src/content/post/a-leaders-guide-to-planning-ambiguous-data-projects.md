@@ -64,7 +64,7 @@ Finally, a Country Manager explained, *"I go into our quarterly business review 
 
 With a clear mission, our plan for the first quarter was focused on tackling the single biggest barrier: trust.
 
-We knew that no one would use the dashboard, no matter how many features it had, if they didn't believe the numbers. So, our MVP was centered on reliability. Our primary goal was to stabilize the underlying data pipelines and reduce data latency from hours to under 20 minutes. We also delivered one high-value "quick win" based on my interviews: a simple filter that allowed PMs to segment data by app version, a major pain point they had described.
+We knew that no one would use the dashboard, no matter how many features it had, if they didn't believe the numbers. So, our MVP was centered on reliability.  **[The Lean Startup (MVP)](https://leanstartup.co/resources/articles/what-is-an-mvp)** . Our primary goal was to stabilize the underlying data pipelines and reduce data latency from hours to under 20 minutes. We also delivered one high-value "quick win" based on my interviews: a simple filter that allowed PMs to segment data by app version, a major pain point they had described.
 
 The result at the end of Q1 wasn't a revolutionary new dashboard. It was a dashboard that was finally fast and accurate. For the first time in a year, stakeholders started using it again. We had built a solid foundation and, more importantly, we had earned the momentum and political capital needed to continue.
 
