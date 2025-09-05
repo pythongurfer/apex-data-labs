@@ -10,7 +10,7 @@ tags:
   - causality
   - leadership
 image: '/images/articles/article_secret_language.jpg'
-draft: false
+draft: true
 layout: '~/layouts/PostLayout.astro'
 ---
 
@@ -22,14 +22,14 @@ This article is about that foundation. We’re going to demystify the "bread and
 
 ## Chapter 1: The Surprise Box – Understanding Random Variables
 
-Before we can test anything, we need to understand what we're measuring. In data, we measure **random variables**.
+Before we can test anything, we need to understand what we're measuring. In data, we measure **random variables**. Explained here [random variable](https://www.youtube.com/watch?v=3v9w79NhsfI)
 
 Imagine a surprise box. You know it contains a toy, but you don't know which toy until you open it. A random variable is just like that. It’s a value that comes from a process with an element of chance.
 
 - **Click-Through Rate (CTR):** You know a user will either click or not, but you can't predict the outcome for any single user.  
 - **Session Duration:** You know a user will spend some amount of time on your site, but the exact duration is a random outcome.  
 
-This is a **stochastic process**—one involving randomness. It's the opposite of a deterministic process, like following a recipe, where the same inputs always produce the same output. In business, nearly every metric we care about is a random variable from a stochastic process ([*Introduction to Random Processes* by Eugene Wong, Springer] provides a foundational mathematical overview of random variables and stochastic processes):contentReference[oaicite:0]{index=0}.
+This is a **[stochastic process](https://link.springer.com/chapter/10.1007/978-1-4757-1795-2_4)**—one involving randomness. More formal It's the opposite of a deterministic process, like following a recipe, where the same inputs always produce the same output. In business, nearly every metric we care about is a random variable.
 
 ---
 
@@ -48,11 +48,11 @@ In this courtroom, we can make two types of mistakes:
 - **Type I Error (False Positive):** Like sending an innocent person to jail. In business, you might roll out a new feature you think is a winner but actually harms the user experience.  
 - **Type II Error (False Negative):** Like letting a guilty person go free. You miss out on a winning feature because your test fails to detect it.  
 
-Our story, ["Scaling Excellence"](/articles/article_scaling_excellence), was about creating a hypothesis framework to reduce these errors by forcing rigorous thinking before the trial even began.
+Our story, ["Scaling Excellence"](/articles/how-we-elevated-our-ab-testing-without-micromanagement), was about creating a hypothesis framework to reduce these errors by forcing rigorous thinking before the trial even began.
 
 ---
 
-### The Data Professional's Toolbox: Choosing the Right Test 🧰
+### The Data Professional's Toolbox: Choosing the Right Test 
 
 Just like a carpenter uses different tools for different jobs, we use different **statistical tests** for different types of data.
 
@@ -67,7 +67,7 @@ Just like a carpenter uses different tools for different jobs, we use different 
 This is the most important concept in all of data science: distinguishing **correlation** from **causality**.
 
 ### The Classic Analogy: Ice Cream & Sunburns  
-Ice cream sales and sunburn rates are correlated because hot weather—**a confounding variable**—causes both. Our ["Failing A/B Test"](/articles/article_turnaround) story was a classic example: design changes were the hidden "hot weather" causing metric drops.
+Ice cream sales and sunburn rates are correlated because hot weather—**a confounding variable**—causes both. Our ["Failing A/B Test"](/articles/how-failing-ab-test-forget-a-stronger-culture) story was a classic example: design changes were the hidden "hot weather" causing metric drops.
 
 ---
 
@@ -81,7 +81,7 @@ A well-designed A/B test acts like a scientific lab, eliminating confounders thr
   - **Propensity Score Matching:** The *"Statistical Twin"* method.  
   - **Time Series Causal Impact Modeling:** The *"What-If Machine"*.
 
-For a deeper look at causal inference, *“Causal Inference in Statistics: A Primer”* by Pearl, Glymour & Jewell (Springer) is an excellent, accessible introduction:contentReference[oaicite:1]{index=1}. For a deeper theoretical dive, Judea Pearl’s *“Causality: Models, Reasoning, and Inference”* (Cambridge University Press) remains the foundational text of modern causal modeling:contentReference[oaicite:2]{index=2}. Another great academic resource is *“Demystifying Causal Inference”* (Springer), which adds practical examples in R and real-world policy contexts:contentReference[oaicite:3]{index=3}.
+For a deeper look at causal inference, ["Causal Inference in Statistics: A Primer” by Pearl, Glymour & Jewell (Springer)](https://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf). For a deeper theoretical dive, Judea Pearl’s [“Causality: Models, Reasoning, and Inference” (Cambridge University Press)](https://bayes.cs.ucla.edu/BOOK-2K/neuberg-review.pdf) remains the foundational text of modern causal modeling. Another great academic resource is [“Demystifying Causal Inference” (Springer)](https://iegindia.org/upload/profile_publication/doc-190520_072516wpp393.pdf), which adds practical examples in R and real-world policy contexts.
 
 ---
 

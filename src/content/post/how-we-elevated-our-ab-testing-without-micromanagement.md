@@ -11,7 +11,7 @@ tags:
   - frameworks
 image: '/images/articles/article_scaling_excellence.jpg'
 imageAlt: 'A small gear turning a series of larger gears, symbolizing how a small framework can scale excellence across an organization.'
-draft: false
+draft: true
 layout: '~/layouts/PostLayout.astro'
 ---
 
@@ -36,7 +36,7 @@ Instead of becoming the "hypothesis police," my goal was to create a self-servic
 ### Step 1: Translating a Complex Concept
 The first challenge was to translate a complex technical concept for a non-technical audience. The concept was the difference between a simple prediction and a scientific, falsifiable, and insightful hypothesis, a cornerstone of any successful **[experimentation program](https://www.optimizely.com/optimization-glossary/ab-testing/)**.
 
-I knew that talking about "methodological rigor" wouldn't connect with Product Managers who were under pressure to deliver results. So, I used a simple analogy, a concept well-articulated by experts at institutions like **[Reforge](https://www.reforge.com/brief/a-3-step-framework-for-solving-problems-with-experimentation)**, who emphasize that a strong hypothesis is the foundation of all testing. For a more academic treatment, see **[Design and Analysis of Experiments](https://link.springer.com/book/10.1007/978-3-319-52250-0?utm_source=chatgpt.com)** (Springer), one of the definitive texts on structured experimentation.
+I knew that talking about "methodological rigor" wouldn't connect with Product Managers who were under pressure to deliver results. So, I used a simple analogy, a concept well-articulated by experts at institutions like **[Medium](https://chuan-zhang.medium.com/building-a-trustworthy-a-b-testing-platform-practical-guide-and-an-architecture-demonstration-332446724ba0)**, who emphasize that a strong hypothesis is the foundation of all testing. For a more academic treatment, see **[Design and Analysis of Experiments](https://link.springer.com/book/10.1007/978-3-319-52250-0?utm_source=chatgpt.com)** (Springer), one of the definitive texts on structured experimentation.
 
 *"I explained that a weak hypothesis is like a weather forecast that says 'it might rain tomorrow.' It's not very useful. A strong hypothesis is like saying, 'Because a cold front is moving in from the west, there is a 90% chance of rain between 2 PM and 5 PM.' The 'because' is what gives us a model of the world that we can actually test, learn from, and improve. That's what we were missing."*
 
@@ -55,7 +55,7 @@ To ensure its adoption, I didn't work in a silo. I partnered with a well-respect
 ### Step 3: Demonstrating Value and Scaling
 After one quarter, we presented our results in a company-wide demo. We didn't just show the template; we demonstrated that our "learning rate" from failed experiments had skyrocketed. We could now explain why things didn't work, which was as valuable as a win.
 
-The Head of Product saw the impact immediately and gave us their full support to roll it out company-wide. From there, we held workshops and integrated the template directly into our A/B testing tool. If you're just getting started, it's crucial to understand the fundamentals of a good <u>A/B Testing Program</u>, as described in **[Harvard Business Review’s primer on A/B testing](https://hbr.org/2017/06/a-refresher-on-ab-testing)** and in academic texts like **[Statistical Methods for Online A/B Testing](https://link.springer.com/book/10.1007/978-3-030-70350-4?utm_source=chatgpt.com)** (Springer).
+The Head of Product saw the impact immediately and gave us their full support to roll it out company-wide. From there, we held workshops and integrated the template directly into our A/B testing tool. If you're just getting started, it's crucial to understand the fundamentals of a good <u>A/B Testing Program</u>, as described in **[Harvard Business Review’s primer on A/B testing](https://hbr.org/2017/06/a-refresher-on-ab-testing)** and in academic texts like **[Statistical Methods for Online A/B Testing](https://www.abtestingstats.com/Statistical-Methods-in-Online-A-B-Testing-pdf.pdf)** (Georgi Z. Georgiev).
 
 ---
 
@@ -67,4 +67,4 @@ The impact of this initiative was profound and manifested on multiple levels.
 - **On Quality:** The experiment review meetings were transformed. The conversations shifted from "What are you testing?" to "What is the core assumption you are challenging?"  
 - **Business Impact:** We dramatically increased our learning velocity. Teams could now make smarter, faster follow-up decisions after inconclusive tests, which directly improved the ROI of our entire experimentation program.  
 
-This project demonstrated that the best way to ensure quality is not through constant oversight, but by creating the conditions for excellence to occur naturally. By empowering teams with the right frameworks, we didn't just improve our experiments; we built a stronger, truly data-driven culture of learning. For a broader perspective on building cultures of evidence-based decision making, see **[Evidence-Based Management](https://www.cambridge.org/core/books/evidencebased-management/1E4D9E5C7B6F8F4E6A693D8B4F36DDA4?utm_source=chatgpt.com)** (Cambridge University Press).
+This project demonstrated that the best way to ensure quality is not through constant oversight, but by creating the conditions for excellence to occur naturally. By empowering teams with the right frameworks, we didn't just improve our experiments; we built a stronger, truly data-driven culture of learning. For a broader perspective on building cultures of evidence-based decision making, see **[Evidence-Based Management](https://hbr.org/2006/01/evidence-based-management)** (Cambridge University Press).
