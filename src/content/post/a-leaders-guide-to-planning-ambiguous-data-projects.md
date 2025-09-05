@@ -1,5 +1,5 @@
 ---
-publishDate: '2025-08-05T12:00:00Z'
+publishDate: '2025-09-25T12:00:00Z'
 title: "Case Study: A Leader's Guide to Planning Ambiguous Data Projects"
 excerpt: "When you’re handed a vague, multi-quarter data project, where do you even begin? This story unpacks how listening, de-risking, and iterative delivery transformed a failing dashboard into a trusted, indispensable tool—and offers a blueprint for any ambiguous initiative."
 category: 'Data & Analytics'
@@ -11,7 +11,7 @@ tags:
   - dashboards
 image: '/images/articles/article_chaos_to_clarity.jpg'
 imageAlt: 'A visual metaphor showing a tangled, chaotic line being transformed into a clear, straight arrow, representing the process of bringing clarity to a project.'
-draft: false
+draft: true
 layout: '~/layouts/PostLayout.astro'
 ---
 

@@ -28,7 +28,7 @@ This is the story of how we diagnosed the root cause, navigated a critical disag
 
 My first task was to understand the ‘why’. The prevailing theory was that there must be a subtle bug or latency issue in the new tech stack. But my gut told me it was something more fundamental. I decided to go back to first principles and scrutinize the experiment's methodology.
 
-An A/B test, at its core, is a scientific experiment. To get a valid result, you can only change one variable at a time. This test was intended to be a simple "apples-to-apples" comparison of the old technology versus the new, with the user experience (UX) remaining identical.
+An A/B test, at its core, is a [scientific experiment](https://hbr.org/2017/06/a-refresher-on-ab-testing). To get a valid result, you can only change one variable at a time. This test was intended to be a simple "apples-to-apples" comparison of the old technology versus the new, with the user experience (UX) remaining identical.
 
 However, after a meticulous side-by-side comparison, I discovered the flaw: **to save time during development, several undocumented UX changes had been introduced to the new version of the page.** The button to contact a seller was a different color and in a slightly different position. The navigation bar was altered. The layout of related items had changed. We weren't just testing a new engine; we were testing a completely different car.
 
@@ -50,7 +50,7 @@ This was a classic conflict between technical purity and business pragmatism. He
 
 ## Chapter 3: The Turning Point – Translating Data into Business Language
 
-My approach to handling this disagreement was to shift the conversation from a debate between two people into a collaborative analysis of a shared problem. I knew I couldn't just say "no"; I had to reframe the entire decision.
+My approach to handling this disagreement was to shift the conversation from a debate between two people into a collaborative analysis of a shared problem, applying principles from what Harvard Business Review calls **[The Art of Influencing and Persuading](https://hbr.org/2021/11/the-art-of-persuasion-our-favorite-reads)**. I knew I couldn't just say "no"; I had to reframe the entire
 
 First, I used an analogy to translate the complex technical concept. I told him, *"Imagine we're testing a new, healthier recipe for a cake. But when we give it to the taste-testers, we also serve it on a chipped plate. If they say they don't like it, we have no way of knowing if it was the recipe or the plate. **Our A/B test is currently serving our new tech on a chipped plate.**"* This simple metaphor immediately clarified why the test results were useless.
 
