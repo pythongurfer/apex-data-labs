@@ -11,7 +11,7 @@ tags:
   - frameworks
 image: '/images/articles/article_scaling_excellence.jpg'
 imageAlt: 'A small gear turning a series of larger gears, symbolizing how a small framework can scale excellence across an organization.'
-draft: true
+draft: false
 layout: '~/layouts/PostLayout.astro'
 ---
 
