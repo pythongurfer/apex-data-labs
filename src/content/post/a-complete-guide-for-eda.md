@@ -20,13 +20,6 @@ layout: '~/layouts/PostLayout.astro'
 
 ## The Art of the Data Detective: A Complete Guide to Exploratory Data Analysis (EDA)
 
-**Excerpt:** Before you can build a model or run an A/B test, you must first understand your data's story. Exploratory Data Analysis (EDA) is the art of being a data detective—finding clues, patterns, and asking the right questions. This guide walks you through the complete EDA process.
-
-**Category:** Data & Analytics
-**Tags:** EDA, exploratory data analysis, data science, analytics, data visualization, statistics
-
------
-
 Every great data story starts with a mystery. You're handed a dataset—a crime scene—filled with rows and columns of silent witnesses. Your job, before you can build a case or point to a culprit, is to be a detective. This initial investigation is called **Exploratory Data Analysis (EDA)**.
 
 EDA is not about finding definitive answers. It’s a philosophy of curiosity and skepticism. It’s the process of turning over every stone, dusting for fingerprints, and following the clues to form a theory. In our guide, **[The Secret Language of Data](https://www.google.com/search?q=/articles/the-secret-language-of-data)**, we talked about building the "courtroom case" with A/B testing. EDA is the crucial detective work that happens *before* the trial begins.
@@ -35,7 +28,7 @@ This article provides a complete, step-by-step guide to the EDA process.
 
 -----
 
-### \#\# Step 1: The First Walk-Through – Understanding Your Data's DNA
+### Step 1: The First Walk-Through – Understanding Your Data's DNA
 
 A detective doesn't start by interrogating suspects. They start with a quiet walk-through of the crime scene to get the lay of the land. In EDA, this means getting a high-level summary of your dataset.
 
@@ -47,7 +40,7 @@ A detective doesn't start by interrogating suspects. They start with a quiet wal
 
 -----
 
-### \#\# Step 2: The Witness Statements – Univariate Analysis (One Variable at a Time)
+### Step 2: The Witness Statements – Univariate Analysis (One Variable at a Time)
 
 Once you have the lay of the land, you start interviewing the witnesses one by one. In EDA, this is **univariate analysis**, where you examine each variable individually to understand its characteristics.
 
@@ -65,7 +58,7 @@ This is like measuring the key dimensions of the scene. For a column like `price
 
 -----
 
-### \#\# Step 3: Connecting the Dots – Bivariate Analysis (Finding Relationships)
+### Step 3: Connecting the Dots – Bivariate Analysis (Finding Relationships)
 
 This is where the real detective work begins. You start looking for connections between your witnesses and pieces of evidence. **Bivariate analysis** is about exploring the relationship between two variables at a time.
 
@@ -83,7 +76,7 @@ This is useful for comparing a continuous metric across different groups. For ex
 
 -----
 
-### \#\# Conclusion: The Detective's Report – From Clues to Hypotheses
+### Conclusion: The Detective's Report – From Clues to Hypotheses
 
 The final step of EDA is not a conclusion; it's a report of your initial findings and a set of testable hypotheses. You summarize the patterns, anomalies, and relationships you've discovered.
 
