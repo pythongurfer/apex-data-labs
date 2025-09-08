@@ -1,16 +1,19 @@
 ---
-publishDate: '2025-09-25T18:00:00Z'
-title: 'The Age of Recurrence: A Formal Look at LSTM Networks'
-excerpt: 'A deep dive into the architecture that defined an era of natural language processing. This article deconstructs the Long Short-Term Memory (LSTM) network, exploring the formal mathematics behind its gated memory cell.'
+publishDate: '2025-09-05T10:00:00Z'
+title: 'The Art of the Data Detective: A Complete Guide to Exploratory Data Analysis (EDA)'
+excerpt: "Before you can build a model or run an A/B test, you must first understand your data's story. Exploratory Data Analysis (EDA) is the art of being a data detective—finding clues, patterns, and asking the right questions. This guide walks you through the complete EDA process."
 category: 'Data & Analytics'
 tags:
-  - lstm
-  - recurrent neural networks
-  - nlp
-  - deep learning
-  - mathematics
-image: '/images/articles/lstm-diagram.jpg'
-draft: true
+  - EDA
+  - exploratory data analysis
+  - data science
+  - analytics
+  - data visualization
+  - statistics
+image: '/images/articles/article_eda.jpg'
+imageAlt: 'Magnifying glass hovering over a dataset, symbolizing data detective work during Exploratory Data Analysis.'
+draft: false
+layout: '~/layouts/PostLayout.astro'
 ---
 
 **Published: September 25, 2025**
