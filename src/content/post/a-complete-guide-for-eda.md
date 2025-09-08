@@ -1,5 +1,5 @@
 ---
-publishDate: '2025-09-05T10:00:00Z'
+publishDate: '2025-09-08T10:00:00Z'
 title: 'The Art of the Data Detective: A Complete Guide to Exploratory Data Analysis (EDA)'
 excerpt: "Before you can build a model or run an A/B test, you must first understand your data's story. Exploratory Data Analysis (EDA) is the art of being a data detective—finding clues, patterns, and asking the right questions. This guide walks you through the complete EDA process."
 category: 'Data & Analytics'
@@ -16,7 +16,7 @@ draft: false
 layout: '~/layouts/PostLayout.astro'
 ---
 
-**Published: September 25, 2025**
+**Published: September 08, 2025**
 
 ## The Art of the Data Detective: A Complete Guide to Exploratory Data Analysis (EDA)
 
