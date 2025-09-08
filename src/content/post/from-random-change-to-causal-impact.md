@@ -1,5 +1,5 @@
 ---
-publishDate: '2025-09-05T16:00:00Z'
+publishDate: '2025-09-08T16:00:00Z'
 title: 'The Secret Language of Data: From Random Chance to Causal Impact'
 excerpt: "Every data leader must move beyond surface-level metrics to the deeper concepts of randomness, hypothesis testing, and causality. This article breaks down the foundations of data science with simple analogies—helping you go from being data-driven to truly data-informed."
 category: 'Data & Analytics'
@@ -10,7 +10,7 @@ tags:
   - causality
   - leadership
 image: '/images/articles/article_secret_language.jpg'
-draft: true
+draft: false
 layout: '~/layouts/PostLayout.astro'
 ---
 
