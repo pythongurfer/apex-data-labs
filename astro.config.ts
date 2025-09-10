@@ -22,6 +22,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
+  legacy: { collections: true },
   output: 'static',
 
   integrations: [
@@ -78,6 +79,12 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    shikiConfig: {
+      // Choose a theme you like! See https://shiki.style/themes
+      theme: 'dracula',
+      // Enable word wrap to prevent horizontal scrolling
+      wrap: true,
+    },
   },
 
   vite: {
