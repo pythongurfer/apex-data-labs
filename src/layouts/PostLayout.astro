@@ -18,6 +18,7 @@ const metadata = {
     "headline": "${frontmatter.title}",
     "description": "${frontmatter.excerpt}",
     "datePublished": "${frontmatter.publishDate}",
+    "dateModified": "${frontmatter.updatedDate || frontmatter.publishDate}",
     "image": "${Astro.url.origin}${frontmatter.image}",
     "author": {
       "@type": "Person",

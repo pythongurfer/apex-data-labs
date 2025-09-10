@@ -9,7 +9,8 @@ tags:
   - ab testing
   - causality
   - leadership
-image: '/images/articles/article_secret_language.jpg'
+image: '/images/articles/logo.png'
+imageAlt: 'A diagram showing a downward-trending graph being turned around into an upward-trending one, symbolizing a business turnaround.'
 draft: false
 layout: '~/layouts/PostLayout.astro'
 ---
@@ -31,7 +32,7 @@ Imagine a surprise box. You know it contains a toy, but you don't know which spe
 
 This inherent unpredictability at the individual level stems from what is known as a **[stochastic process](https://www.investopedia.com/terms/s/stochastic-process.asp)**—one governed by an element of chance. It's the opposite of a deterministic process, like following a recipe, where the same inputs always produce the same, predictable output. In business, nearly every metric we care about—revenue per user, conversion rate, customer lifetime value—is a random variable, because it is the aggregate result of countless individual, unpredictable human decisions.
 
-### ### The Formalities of a Random Variable
+### The Formalities of a Random Variable
 
 Let's formalize the CTR example. For a single user viewing a button, the random variable $X$ can be described by a **Bernoulli distribution**. This is the simplest kind of random variable, representing a single trial with two outcomes (success or failure).
 
@@ -68,7 +69,7 @@ An A/B test is how we bring scientific rigor to the inherent randomness of our m
 
 The entire process is built on the principle of **"innocent until proven guilty."**
 
-### ### The Hypotheses and the Verdict
+### The Hypotheses and the Verdict
 
 In statistical terms, we formalize this as two competing hypotheses:
 
@@ -91,7 +92,7 @@ In this courtroom, we can make two critical mistakes, and there is a fundamental
 
 The probability of correctly detecting a real effect is called **Statistical Power ($1-\beta$)**. A well-designed experiment has high power (typically 80% or more), which minimizes the risk of a false negative.
 
-### ### The Data Professional's Toolbox: Choosing the Right Test
+### The Data Professional's Toolbox: Choosing the Right Test
 
 Just like a carpenter uses different tools for different jobs, we use different **statistical tests** based on the type of random variable we are measuring.
 
@@ -115,19 +116,19 @@ Just like a carpenter uses different tools for different jobs, we use different 
 
 This is arguably the most important and most difficult concept in all of data science: distinguishing **correlation** from **causality**. It’s the difference between observing that two things happen together and proving that one thing *causes* the other.
 
-### ### The Classic Analogy: Ice Cream Sales & Sunburns
+### The Classic Analogy: Ice Cream Sales & Sunburns
 
 It's a statistical fact that on days when ice cream sales are high, sunburn rates are also high. The two are strongly correlated. However, it would be absurd to conclude that eating ice cream causes sunburns. There is a hidden, third factor—a **confounding variable**—that drives both: hot weather. Our ["Failing A/B Test"](/articles/how-failing-ab-test-forged-a-stronger-culture) story was a classic real-world example of this: several undocumented design changes were the "hot weather" confounding the experiment and causing the metric drops.
 
 In mathematical terms, a confounder is a variable that is correlated with both the treatment (the change you are making) and the outcome. Its presence makes the observed association between treatment and outcome spurious.
 
-### ### How We Prove Causality: The Gold Standard
+### How We Prove Causality: The Gold Standard
 
 The **Randomized Controlled Trial (RCT)**, known in our world as the **A/B test**, is the gold standard for establishing causality. Randomization is its superpower. By randomly assigning users to either Group A or Group B, we ensure that, on average, the two groups are statistically identical in every possible way—age, geography, behavior, device type, weather, etc.
 
 Randomization breaks the link between potential confounding variables and the treatment. Because the only systematic difference between the two groups is the change we introduced (Version B), we can confidently attribute any significant difference in the outcome metric to that change. This allows us to move from an observational statement, $P(\text{outcome}|\text{treatment})$, to a causal one, $P(\text{outcome}|do(\text{treatment}))$.
 
-### ### When You Can't A/B Test: The Quasi-Experimental Toolbox
+### When You Can't A/B Test: The Quasi-Experimental Toolbox
 
 Sometimes, it's impossible or unethical to run an A/B test. You can't randomly assign some users to see a major site redesign while others see the old one for months. In these cases, data scientists turn to a set of powerful quasi-experimental methods to estimate causal impact from observational data.
 
