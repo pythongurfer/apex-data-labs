@@ -11,6 +11,7 @@ import icon from 'astro-icon';
 import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
 import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 
 import astrowind from './vendor/integration';
 
@@ -78,7 +79,7 @@ export default defineConfig({
   },
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin],
+    remarkPlugins: [readingTimeRemarkPlugin, remarkMath],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin, rehypeKatex],
     shikiConfig: {
       // Choose a theme you like! See https://shiki.style/themes
