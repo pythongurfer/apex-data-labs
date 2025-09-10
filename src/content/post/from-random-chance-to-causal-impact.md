@@ -98,7 +98,7 @@ Just like a carpenter uses different tools for different jobs, we use different 
 
 * **For Categorical Data (e.g., CTR, Conversion Rate):** For "Yes/No" metrics, we use a **Chi-Squared Test ($\chi^2$)**. This test compares the observed frequencies in a contingency table (e.g., Clicks vs. Non-Clicks for A/B) to the frequencies we would *expect* if the null hypothesis were true. The formula for the statistic is:
     $$
-    \chi^2 = \sum \frac{(O - E)^2}{E}
+    \chi^2 = \sum \left( \frac{(O - E)^2}{E} \right)
     $$
     Where $O$ is the observed frequency and $E$ is the expected frequency.
 
