@@ -274,3 +274,5 @@ For example:
 "The data shows a significant drop-off in our checkout funnel on the payment page, particularly for mobile users. My hypothesis is that the page's complexity is causing user friction, and simplifying it will increase conversion rates."
 
 EDA is the engine of discovery. It’s the structured process of curiosity that transforms a raw dataset from a spreadsheet of numbers into a rich source of strategic insights. By mastering the art of the data detective, you move beyond simply reporting numbers and become a true partner to the business, capable of uncovering the stories that drive intelligent action. Now, go find your first clue.
+
+For more info about how to run a successful AB test using [AB testing framework](/articles/ab-testing-framework) check out this post. 
