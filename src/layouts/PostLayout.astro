@@ -1,4 +1,6 @@
 ---
+// src/layouts/PostLayout.astro
+
 import Layout from '~/layouts/Layout.astro';
 import { getFormattedDate } from '~/utils/utils';
 
@@ -43,7 +45,7 @@ const metadata = {
           <time datetime={frontmatter.publishDate}>{new Date(frontmatter.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
         </p>
       </header>
-      
+     
       {frontmatter.image && (
         <img 
           src={frontmatter.image} 
