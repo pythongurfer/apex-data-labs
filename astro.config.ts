@@ -19,12 +19,12 @@ import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehype
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const hasExternalScripts = false;
+const hasExternalScripts = true;
 const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[] = []) =>
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  legacy: { collections: true },
+  // legacy: { collections: true },
   output: 'static',
 
   integrations: [
@@ -78,16 +78,18 @@ export default defineConfig({
     domains: ['cdn.pixabay.com'],
   },
 
+  /*
+  // This markdown block is commented out to let the astrowind theme handle it.
+  // You should configure your markdown plugins in `src/config.yaml` instead.
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin, remarkMath],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin, rehypeKatex],
     shikiConfig: {
-      // Choose a theme you like! See https://shiki.style/themes
       theme: 'dracula',
-      // Enable word wrap to prevent horizontal scrolling
       wrap: true,
     },
   },
+  */
 
   vite: {
     resolve: {

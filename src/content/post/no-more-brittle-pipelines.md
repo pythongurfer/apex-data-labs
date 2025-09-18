@@ -7,7 +7,7 @@ tags:
   - dbt
   - ci-cd
   - best practices
-image: '/images/articles/article_2.jpg'
+image: '~/assets/images/articles/article_2.jpg'
 draft: false
 layout: '~/layouts/PostLayout.astro'
 ---

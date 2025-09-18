@@ -6,7 +6,7 @@ category: 'Strategy'
 tags:
   - data strategy
   - e-commerce
-image: '/images/articles/article_dashboards.jpg'
+image: '~/assets/images/articles/article_dashboards.jpg'
 draft: false
 layout: '~/layouts/PostLayout.astro'
 ---

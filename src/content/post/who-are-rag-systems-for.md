@@ -8,7 +8,7 @@ tags:
   - genai
   - llm
   - business strategy
-image: '/images/articles/article_3.jpg'
+image: '~/assets/images/articles/article_3.jpg'
 draft: false
 layout: '~/layouts/PostLayout.astro'
 ---

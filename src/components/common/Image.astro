@@ -37,6 +37,7 @@ if (!props.decoding) {
   props.decoding = 'async';
 }
 
+
 const _image = await findImage(props.src);
 
 let image: ImageType | undefined = undefined;
@@ -52,10 +53,19 @@ if (
 }
 ---
 
-{
-  !image ? (
-    <Fragment />
-  ) : (
-    <img src={image.src} crossorigin="anonymous" referrerpolicy="no-referrer" {...image.attributes} />
-  )
-}
+<div class="w-full">
+  {
+    !image ? (
+      <Fragment />
+    ) : (
+      <img
+        src={image.src}
+        alt={props.alt}
+        class="object-contain w-full h-full rounded-lg"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        {...image.attributes}
+      />
+    )
+  }
+</div>

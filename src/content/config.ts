@@ -7,6 +7,7 @@ const postCollection = defineCollection({
     publishDate: z.string().transform((str) => new Date(str)),
     excerpt: z.string(),
     image: z.string().optional(), // <-- ¡CAMBIO IMPORTANTE! Vuelve a ser un string.
+    imageAlt: z.string().optional(),
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional(),

@@ -3,7 +3,7 @@
 # ==================================================================================================
 site:
   name: 'Apex Data Labs'
-  site: 'https://www.apex-data.io' # <-- Asegúrate de que este es tu dominio
+  site: 'https://www.apex-data.io'
   base: '/'
   trailingSlash: false
   googleSiteVerificationId: ''
@@ -17,7 +17,6 @@ metadata:
     template: '%s — Apex Data Labs'
   description: "A professional portfolio showcasing projects and articles on data platforms, AI strategy, and analytics."
   
-  # La indentación correcta es de 2 espacios aquí
   robots:
     index: true
     follow: true
@@ -51,7 +50,7 @@ apps:
     postsPerPage: 6
     post:
       isEnabled: true
-      permalink: 'articles/%slug%' # <-- Ruta corregida de un paso anterior
+      permalink: 'articles/%slug%'
       robots:
         index: true
     list:
@@ -78,6 +77,15 @@ apps:
 analytics:
   vendors:
     googleAnalytics:
-      id: null
+      id: 'G-JSPFG923QG'
 ui:
   theme: 'system'
+
+# ==================================================================================================
+# Configuración de Markdown - SECCIÓN AÑADIDA
+# ==================================================================================================
+markdown:
+  remarkPlugins:
+    - remark-math
+  rehypePlugins:
+    - rehype-katex

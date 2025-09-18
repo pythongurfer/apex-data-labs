@@ -1,20 +1,19 @@
 ---
+// src/layouts/Layout.astro
 import '~/assets/styles/tailwind.css';
 
 import { I18N } from 'astrowind:config';
 
+import Header from '~/components/widgets/Header.astro'; // ADDED
+import Footer from '~/components/widgets/Footer.astro'; // ADDED
 import CommonMeta from '~/components/common/CommonMeta.astro';
 import Favicons from '~/components/Favicons.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
 import Metadata from '~/components/common/Metadata.astro';
-import SiteVerification from '~/components/common/SiteVerification.astro';
-import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 
-// Comment the line below to disable View Transitions
-import { ClientRouter } from 'astro:transitions';
-
+import { headerData, footerData } from '~/navigation'; // ADDED
 import type { MetaData as MetaDataType } from '~/types';
 
 export interface Props {
@@ -33,18 +32,19 @@ const { language, textDirection } = I18N;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
-    <SiteVerification />
-    <Analytics />
-
-    <!-- Comment the line below to disable View Transitions -->
-    <ClientRouter fallback="swap" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/styles/katex.min.css">
-
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
-    <slot />
+    <Header {...headerData} isSticky showRssFeed showToggleTheme />
+
+    <main>
+      <slot />
+    </main>
+
+    <Footer {...footerData} />
 
     <BasicScripts />
   </body>

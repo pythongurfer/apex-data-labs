@@ -5,6 +5,14 @@ import Features2 from '~/components/widgets/Features2.astro';
 import { getCollection } from 'astro:content';
 import heroMainImage from '~/assets/images/data_stairs.jpg';
 
+function getImagePath(imgPath) {
+  if (!imgPath) return '/placeholder-image.jpg';
+  if (imgPath.startsWith('~/assets')) {
+    return imgPath.replace('~/assets', '');
+  }
+  return imgPath;
+}
+
 const posts = (await getCollection('post'))
   .filter((post) => post.data.draft !== true)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
@@ -57,7 +65,12 @@ const posts = (await getCollection('post'))
         {posts.slice(0, 3).map((post) => (
           <a href={`/articles/${post.slug}`} class="block border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:border-blue-600 transition bg-white dark:bg-slate-900 h-full">
             {post.data.image && (
-              <img src={post.data.image} alt={post.data.title || ''} class="rounded-md mb-4 w-full h-40 object-cover" />
+              <img 
+                src={getImagePath(post.data.image)} 
+                alt={post.data.imageAlt || post.data.title || ''} 
+                class="rounded-md mb-4 w-full h-40 object-cover"
+                onerror="this.onerror=null; this.src='/placeholder-image.jpg';" 
+              />
             )}
             <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
             <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>

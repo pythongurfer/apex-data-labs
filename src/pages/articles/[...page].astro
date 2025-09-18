@@ -36,7 +36,14 @@ const metadata = {
         <li class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <a href={`/articles/${post.slug}`}>
             {post.data.image && (
-              <img src={post.data.image} alt={post.data.title} class="w-full h-auto" />
+              <img 
+                src={post.data.image.startsWith('~/assets') 
+                  ? post.data.image.replace('~/assets', '') 
+                  : post.data.image} 
+                alt={post.data.imageAlt || post.data.title || ''} 
+                class="rounded-md mb-4 w-full h-40 object-cover" 
+                onerror="this.onerror=null; this.src='/placeholder-image.jpg';"
+              />
             )}
             <div class="p-6">
               <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>

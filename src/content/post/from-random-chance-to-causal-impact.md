@@ -9,7 +9,7 @@ tags:
   - ab testing
   - causality
   - leadership
-image: '/images/articles/logo.png'
+image: '~/assets/images/articles/logo.png'
 imageAlt: 'A diagram showing a downward-trending graph being turned around into an upward-trending one, symbolizing a business turnaround.'
 draft: false
 layout: '~/layouts/PostLayout.astro'

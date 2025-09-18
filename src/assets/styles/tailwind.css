@@ -90,3 +90,23 @@
 .dd *:first-child {
   margin-top: 0;
 }
+
+/* Math/KaTeX styling */
+.katex-display {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.katex {
+  font-size: 1.1em;
+}
+
+/* Dark mode support for KaTeX */
+.dark .katex {
+  color: rgb(248 250 252);
+}
+
+.dark .katex .base {
+  color: rgb(248 250 252);
+}
+

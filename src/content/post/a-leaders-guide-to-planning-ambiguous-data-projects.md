@@ -9,7 +9,7 @@ tags:
   - product management
   - ambiguity
   - dashboards
-image: '/images/articles/article_chaos_to_clarity.jpg'
+image: '~/assets/images/articles/article_chaos_to_clarity.jpg'
 imageAlt: 'A visual metaphor showing a tangled, chaotic line being transformed into a clear, straight arrow, representing the process of bringing clarity to a project.'
 draft: true
 layout: '~/layouts/PostLayout.astro'
