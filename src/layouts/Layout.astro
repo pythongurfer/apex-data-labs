@@ -12,6 +12,8 @@ import CustomStyles from '~/components/CustomStyles.astro';
 import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
 import Metadata from '~/components/common/Metadata.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
+import Analytics from '~/components/common/Analytics.astro';
+import SiteVerification from '~/components/common/SiteVerification.astro';
 
 import { headerData, footerData } from '~/navigation'; // ADDED
 import type { MetaData as MetaDataType } from '~/types';
@@ -35,6 +37,8 @@ const { language, textDirection } = I18N;
     <meta charset="utf-8" />
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+    <Analytics />
+    <SiteVerification />
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
