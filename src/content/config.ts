@@ -12,6 +12,9 @@ const postCollection = defineCollection({
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional(),
     layout: z.string().optional(),
+    author: z.string().optional(),
+    updateDate: z.string().transform((str) => new Date(str)).optional(),
+    metadata: z.object({}).optional(),
   }),
 });
 
