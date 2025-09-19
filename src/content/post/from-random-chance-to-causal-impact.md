@@ -9,7 +9,7 @@ tags:
   - ab testing
   - causality
   - leadership
-image: '~/assets/images/articles/logo.png'
+image: '~/assets/images/articles/abtest.jpg'
 imageAlt: 'A diagram showing a downward-trending graph being turned around into an upward-trending one, symbolizing a business turnaround.'
 draft: false
 layout: '~/layouts/PostLayout.astro'
@@ -83,7 +83,7 @@ The key piece of evidence we produce is the **p-value**. The p-value is the prob
 * **If p-value < $\alpha$ (significance level, e.g., 0.05):** We **reject the null hypothesis**. The evidence is strong enough to conclude the difference is real. This is a "statistically significant" result.
 * **If p-value $\geq \alpha$:** We **fail to reject the null hypothesis**. The evidence is not strong enough to rule out random chance as the explanation.
 
-### ### The Two Types of Judicial Error
+### The Two Types of Judicial Error
 
 In this courtroom, we can make two critical mistakes, and there is a fundamental trade-off between them:
 

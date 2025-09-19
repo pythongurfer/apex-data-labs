@@ -10,7 +10,7 @@ tags:
   - analytics
   - data visualization
   - statistics
-image: '~/assets/images/articles/data_portada.jpg'
+image: '~/assets/images/articles/python.jpg'
 imageAlt: 'Magnifying glass hovering over a dataset, symbolizing data detective work during Exploratory Data Analysis.'
 draft: false
 layout: '~/layouts/PostLayout.astro'

@@ -10,7 +10,7 @@ tags:
   - business strategy
   - stakeholder management
   - root cause analysis
-image: '~/assets/images/articles/article_turnaround.jpg'
+image: '~/assets/images/articles/abtesting_.gif'
 imageAlt: 'A diagram showing a downward-trending graph being turned around into an upward-trending one, symbolizing a business turnaround.'
 draft: false
 layout: '~/layouts/PostLayout.astro'
