@@ -48,9 +48,11 @@ const { links = [] } = headerData;
     const mobileMenu = document.getElementById('mobile-menu');
 
     // Añade un evento que se activa cuando se hace clic en el botón
-    hamburgerButton.addEventListener('click', () => {
-        // Alterna (toggle) la clase 'hidden' en el menú móvil
-        // Si el menú está oculto, lo muestra. Si se está mostrando, lo oculta.
-        mobileMenu.classList.toggle('hidden');
-    });
+    if (hamburgerButton && mobileMenu) {
+        hamburgerButton.addEventListener('click', () => {
+            // Alterna (toggle) la clase 'hidden' en el menú móvil
+            // Si el menú está oculto, lo muestra. Si se está mostrando, lo oculta.
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
 </script>

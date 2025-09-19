@@ -1,67 +1,91 @@
 ---
-// src/layouts/PostLayout.astro
-
 import Layout from '~/layouts/Layout.astro';
 import { getFormattedDate } from '~/utils/utils';
 
 const { frontmatter } = Astro.props;
 
+function getImagePath(imgPath) {
+  if (!imgPath) return '/placeholder-image.jpg';
+  if (imgPath.startsWith('~/assets')) {
+    // Convert Astro/Vite asset path to public path
+    return imgPath.replace('~/assets', '');
+  }
+  return imgPath;
+}
+
+let imageUrl = getImagePath(frontmatter.image);
+
 const metadata = {
   title: frontmatter.title,
   description: frontmatter.excerpt,
+  // More metadata properties...
 };
 ---
-<script type="application/ld+json" is:inline set:html={`
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "${frontmatter.title}",
-    "description": "${frontmatter.excerpt}",
-    "datePublished": "${frontmatter.publishDate}",
-    "dateModified": "${frontmatter.updatedDate || frontmatter.publishDate}",
-    "image": "${Astro.url.origin}${frontmatter.image}",
-    "author": {
-      "@type": "Person",
-      "name": "Anika Rosenzuaig",
-      "url": "${Astro.url.origin}/about"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Apex Data Labs",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "${Astro.url.origin}/favicon.svg" 
+
+<Layout metadata={metadata}>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4">
+        {frontmatter.title}
+      </h1>
+      <div class="text-lg text-gray-600 dark:text-slate-400">
+        By <a href="/about" class="hover:underline">Anika Rosenzuaig</a> · 
+        <time datetime={frontmatter.publishDate}>{new Date(frontmatter.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      </div>
+    </header>
+    
+    <img 
+      src={getImagePath(frontmatter.image)} 
+      alt={frontmatter.imageAlt || frontmatter.title} 
+      class="rounded-lg mb-8 w-full aspect-video object-cover"
+      onerror="this.onerror=null; this.src='/placeholder-image.jpg';" 
+    />
+    
+    <div class="prose dark:prose-invert max-w-none" id="article-content">
+      <slot />
+    </div>
+  </article>
+  
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{frontmatter.title}",
+      "description": "{frontmatter.excerpt || ''}",
+      "datePublished": "{frontmatter.publishDate}",
+      "image": "{Astro.url.origin + imageUrl}",
+      "author": {
+        "@type": "Person",
+        "name": "Anika Rosenzuaig",
+        "url": "{Astro.url.origin}/about"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Apex Data Labs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{Astro.url.origin}/favicon.svg"
+        }
       }
     }
-  }
-`} />
-<Layout metadata={metadata}>
-  <section class="py-16 sm:py-20">
-    <div class="container mx-auto max-w-3xl px-4">
-      <header class="text-center mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4">
-          {frontmatter.title}
-        </h1>
-        <p class="text-lg text-gray-600 dark:text-slate-400">
-          <time datetime={frontmatter.publishDate}>{new Date(frontmatter.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-        </p>
-      </header>
-     
-      {frontmatter.image && (
-        <img 
-          src={frontmatter.image} 
-          alt={frontmatter.imageAlt || frontmatter.title} 
-          class="w-full h-auto rounded-lg mb-12"
-        />
-      )}
+  </script>
 
-      <div class="prose prose-lg dark:prose-invert max-w-none mx-auto">
-        <slot />
-      </div>
-
-      <div class="text-center mt-12">
-        <a href="/articles" class="btn">← Back to all articles</a>
-      </div>
-    </div>
-  </section>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.getElementById('article-content'), {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
 </Layout>
