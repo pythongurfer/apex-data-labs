@@ -1,0 +1,53 @@
+/* In src/styles/global.css */
+
+.table-container {
+  overflow-x: auto;
+  margin: 2em 0;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.data-table th, .data-table td {
+  padding: 10px 12px;
+  border: 1px solid #333;
+  text-align: left;
+}
+.data-table thead th {
+  background-color: #2a2a2a;
+  font-weight: 600;
+}
+.data-table td:nth-child(3),
+.data-table td:nth-child(4),
+.data-table td:nth-child(5),
+.data-table td:nth-child(6),
+.data-table td:nth-child(7),
+.data-table td:nth-child(8),
+.data-table td:nth-child(9),
+.data-table td:nth-child(10),
+.data-table td:nth-child(11) {
+  text-align: right;
+  font-family: 'Courier New', Courier, monospace;
+}
+.table-caption {
+  font-size: 0.85em;
+  color: #aaa;
+  margin-top: 0.5em;
+}
+.highlight-user {
+  background-color: rgba(60, 90, 200, 0.2);
+}
+.highlight-biz {
+  background-color: rgba(80, 180, 110, 0.2);
+}
+.highlight-user-text {
+  background-color: rgba(60, 90, 200, 0.2);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+.highlight-biz-text {
+  background-color: rgba(80, 180, 110, 0.2);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
