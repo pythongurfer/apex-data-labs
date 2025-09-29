@@ -13,7 +13,7 @@ tags:
   - deep learning
 image: '/images/articles/neural_networks.jpg'
 imageAlt: 'A diagram showing the connections between algebra, statistics, and a neural network, illustrating the core foundations.'
-draft: true
+draft: false
 layout: '~/layouts/PostLayout.astro'
 ---
 
