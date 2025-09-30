@@ -7,8 +7,9 @@ const { frontmatter } = Astro.props;
 function getImagePath(imgPath) {
   if (!imgPath) return '/placeholder-image.jpg';
   if (imgPath.startsWith('~/assets')) {
-    // Convert Astro/Vite asset path to public path
-    return imgPath.replace('~/assets', '');
+    // The '~' is configured as an alias to '/src' in astro.config.ts
+    // So ~/assets/... should become /assets/... for public paths
+    return imgPath.replace('~/assets', '/assets');
   }
   return imgPath;
 }
@@ -32,6 +33,18 @@ const metadata = {
         By <a href="/about" class="hover:underline">Anika Rosenzuaig</a> · 
         <time datetime={frontmatter.publishDate}>{new Date(frontmatter.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
       </div>
+      
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2 justify-center">
+          {frontmatter.tags.map((tag) => (
+            <a href={`/tags/${tag}`} class="inline-block">
+              <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800">
+                {tag}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
     </header>
     
     <img 

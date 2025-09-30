@@ -10,6 +10,7 @@ export const headerData = {
     { text: 'About', href: '/about' },
     { text: 'Projects', href: '/projects' },
     { text: 'Articles & Case Studies', href: '/articles' },
+    { text: 'Tags', href: '/tags' },
     { text: 'Contact', href: '/contact' },
   ],
 
