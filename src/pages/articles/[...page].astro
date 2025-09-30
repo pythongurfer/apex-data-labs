@@ -48,6 +48,19 @@ const metadata = {
             <div class="p-6">
               <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
               <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="mt-4">
+                  <div class="flex flex-wrap gap-2">
+                    {post.data.tags.map((tag) => (
+                      <a href={`/tags/${tag}`} class="inline-block">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800">
+                          {tag}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </a>
         </li>

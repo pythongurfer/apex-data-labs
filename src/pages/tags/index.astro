@@ -1,0 +1,63 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('post'))
+  .filter((post) => post.data.draft !== true);
+
+// Extract unique tags and count articles per tag
+const tagMap = posts.reduce((acc: Record<string, number>, post) => {
+  if (post.data.tags && post.data.tags.length > 0) {
+    post.data.tags.forEach(tag => {
+      if (!acc[tag]) {
+        acc[tag] = 0;
+      }
+      acc[tag]++;
+    });
+  }
+  return acc;
+}, {} as Record<string, number>);
+
+// Convert to array and sort by count (descending)
+const tagCounts = Object.entries(tagMap)
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count);
+
+const metadata = {
+  title: 'Tags',
+  description: 'Browse articles by tags',
+};
+
+// Function to get tag size based on count
+function getTagSize(count: number, maxCount: number) {
+  const minFontSize = 1; // rem
+  const maxFontSize = 2.5; // rem
+  const ratio = count / maxCount;
+  const fontSize = minFontSize + (maxFontSize - minFontSize) * ratio;
+  return `${fontSize.toFixed(1)}rem`;
+}
+
+const maxCount = Math.max(...Object.values(tagMap));
+---
+
+<PageLayout metadata={metadata}>
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+    <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-8 text-center">
+      Browse Articles by Tag
+    </h1>
+    
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+      <div class="flex flex-wrap justify-center gap-4">
+        {tagCounts.map(({ tag, count }) => (
+          <a 
+            href={`/tags/${tag}`}
+            class="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100 transition-all"
+            style={`font-size: ${getTagSize(count, maxCount)}`}
+          >
+            {tag} <span class="text-gray-500 text-sm align-super">({count})</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>
