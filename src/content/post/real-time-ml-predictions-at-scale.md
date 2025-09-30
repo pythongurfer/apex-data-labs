@@ -11,7 +11,7 @@ tags:
   - Redis
   - SageMaker
   - Real-Time
-image: '~/assets/images/articles/real-time-ml-pipeline.jpg'
+image: '~/assets/images/articles/redis.png'
 imageAlt: 'An end-to-end architectural diagram showing a user request flowing through Solr, a Java service, Redis, and a SageMaker endpoint to return a ranked list.'
 author: 'Anika Rosenzuaig'
 tableOfContents: true
