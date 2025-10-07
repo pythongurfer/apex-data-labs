@@ -1,0 +1,29 @@
+/* Visual left curly brace container for groups of math lines */
+.math-brace {
+  position: relative;
+  padding-left: 2.2rem; /* space for the brace */
+  margin: 0.75rem 0;
+}
+
+.math-brace:before {
+  content: '';
+  position: absolute;
+  left: 0.4rem;
+  top: 0;
+  bottom: 0;
+  width: 1.4rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  /* Using an inline SVG for a scalable curly brace */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 200' preserveAspectRatio='none'><path d='M30,10 C10,10 10,40 10,40 C30,60 10,80 10,100 C30,120 10,140 10,160 C10,160 30,190 30,190' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+
+.math-brace .math-line {
+  margin: 0.25rem 0 0.25rem 0;
+}
+
+@media (max-width: 768px) {
+  .math-brace { padding-left: 1.8rem; }
+  .math-brace:before { left: 0.2rem; width: 1.2rem; }
+}
