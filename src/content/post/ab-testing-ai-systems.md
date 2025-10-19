@@ -280,4 +280,3 @@ By combining a platform-wide holdback experiment with deep, qualitative, feature
 A/B testing in the age of AI is not a simple matter of measuring clicks and conversions. It requires a shift in mindset—from measuring simple outcomes to evaluating complex behaviors and experiences.
 
 By embracing methodologies like human preference scoring, LLM-as-a-Judge, and platform-wide holdback experiments, you can gain a true understanding of how your AI systems are performing. These techniques allow you to navigate the ambiguity of non-deterministic models, make sense of complex user-agent interactions, and build a holistic view of product quality. The companies that master this new frontier of evaluation will be the ones that build the next generation of truly intelligent and helpful AI products.
----

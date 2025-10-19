@@ -1,8 +1,8 @@
-import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
+import { getPermalink } from './utils/permalinks';
 
 // ==================================================================================================
 // DATOS DEL ENCABEZADO (HEADER)
-// ==================================================================================================
+// =================================================================================================='
 export const headerData = {
   // Un menú de navegación limpio y plano, sin menús desplegables
   // en headerData

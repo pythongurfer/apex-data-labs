@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import { getFormattedDate } from '~/utils/utils';
 
 const { frontmatter } = Astro.props;
 
@@ -13,8 +12,7 @@ function getImagePath(imgPath) {
   return imgPath;
 }
 
-let imageUrl = getImagePath(frontmatter.image);
-
+// Solo obtenemos la imagen para usar en metadata si es necesario
 const metadata = {
   title: frontmatter.title,
   description: frontmatter.excerpt,
