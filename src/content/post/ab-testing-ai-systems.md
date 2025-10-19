@@ -13,7 +13,7 @@ tags:
 author: 'Anika Rosenzuaig'
 image: '~/assets/images/articles/agents_ab_testing.gif'
 imageAlt: 'An abstract visualization of AI agents and data paths being compared, symbolizing the A/B testing of complex AI systems.'
-draft: false
+draft: true
 layout: '~/layouts/PostLayout.astro'
 ---
 

@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import { getFormattedDate } from '~/utils/utils';
 
 const { frontmatter } = Astro.props;
 
@@ -13,11 +12,13 @@ function getImagePath(imgPath) {
   return imgPath;
 }
 
-let imageUrl = getImagePath(frontmatter.image);
+// Definir imageUrl y usarla explícitamente para evitar warning de ESLint
+const imageUrl = getImagePath(frontmatter.image);
 
 const metadata = {
   title: frontmatter.title,
   description: frontmatter.excerpt,
+  image: imageUrl, // Usar imageUrl explícitamente en metadata
   // More metadata properties...
 };
 ---
@@ -65,7 +66,7 @@ const metadata = {
       "headline": "{frontmatter.title}",
       "description": "{frontmatter.excerpt || ''}",
       "datePublished": "{frontmatter.publishDate}",
-      "image": "{Astro.url.origin + imageUrl}",
+      "image": "{Astro.url.origin + metadata.image}",
       "author": {
         "@type": "Person",
         "name": "Anika Rosenzuaig",
