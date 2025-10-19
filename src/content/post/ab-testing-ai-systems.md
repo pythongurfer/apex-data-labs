@@ -10,9 +10,8 @@ tags:
   - rag
   - llms
   - mlops
-author: 'Anika Rosenzuaig'
-image: '~/assets/images/articles/agents_ab_testing.gif'
-imageAlt: 'An abstract visualization of AI agents and data paths being compared, symbolizing the A/B testing of complex AI systems.'
+image: '/images/articles/ab-testing-stats.png'
+imageAlt: 'Python code and data visualization graphs, representing data science and A/B testing methodologies.'
 draft: false
 layout: '~/layouts/PostLayout.astro'
 ---

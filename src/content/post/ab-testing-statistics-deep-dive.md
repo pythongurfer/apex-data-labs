@@ -10,7 +10,6 @@ tags:
   - product analytics
   - conversion rate optimization
   - power analysis
-author: 'Anika Rosenzuaig'
 image: '~/assets/images/articles/ab-testing-stats.png'
 imageAlt: 'A complex diagram showing statistical distributions and decision paths, symbolizing the science behind A/B testing.'
 draft: false
