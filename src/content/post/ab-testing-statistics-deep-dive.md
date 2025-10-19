@@ -1,5 +1,5 @@
 ---
-publishDate: '2025-10-19T10:00:00Z'
+publishDate: '2025-10-19T10:10:00Z'
 title: 'The Ultimate Guide to A/B Testing Statistics: From Theory to Practice'
 excerpt: "Go beyond p-values. This deep dive covers everything from choosing the right statistical test for your metrics to calculating sample size with power analysis. A complete guide for data-driven professionals in e-commerce, marketing, and product."
 category: 'Data & Analytics'
