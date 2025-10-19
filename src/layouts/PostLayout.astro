@@ -18,22 +18,6 @@ let imageUrl = getImagePath(frontmatter.image);
 const metadata = {
   title: frontmatter.title,
   description: frontmatter.excerpt,
-  author: frontmatter.author || 'Anika Rosenzuaig',
-  openGraph: {
-    type: 'article',
-    article: {
-      publishedTime: frontmatter.publishDate,
-      modifiedTime: frontmatter.updateDate,
-      author: frontmatter.author || 'Anika Rosenzuaig',
-      tags: frontmatter.tags?.map(tag => tag.title)
-    },
-    images: frontmatter.image ? [{ 
-      url: getImagePath(frontmatter.image),
-      width: 1200,
-      height: 630
-    }] : []
-  },
-  // More metadata properties...
 };
 ---
 
@@ -44,7 +28,6 @@ const metadata = {
         {frontmatter.title}
       </h1>
       <div class="text-lg text-gray-600 dark:text-slate-400">
-        By <a href="/about" class="hover:underline">{frontmatter.author || 'Anika Rosenzuaig'}</a> · 
         <time datetime={frontmatter.publishDate}>{new Date(frontmatter.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
       </div>
       
