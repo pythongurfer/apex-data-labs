@@ -12,7 +12,6 @@ tags:
 image: '~/assets/images/articles/abtest.jpg'
 imageAlt: 'A diagram showing a downward-trending graph being turned around into an upward-trending one, symbolizing a business turnaround.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 In our recent case studies, we explored how we [turned a failing A/B test into a catalyst for change](/articles/how-failing-ab-test-forged-a-stronger-culture) and how we [scaled our experimentation quality without micromanagement](/articles/how-we-elevated-our-ab-testing-without-micromanagement). Both stories are about leadership, process, and business impact. But beneath the surface of these strategic narratives lies a foundation of core data concepts. Understanding these ideas is the crucial difference between being data-driven—simply following the numbers—and being truly data-informed—understanding the "why" behind them.

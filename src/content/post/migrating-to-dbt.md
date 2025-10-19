@@ -14,7 +14,6 @@ tags:
 image: '/images/articles/dbt.png'
 imageAlt: 'A diagram showing chaotic, tangled data pipelines being transformed into a clean, layered, and organized data architecture.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 Every established company has one: a single, monstrous, mission-critical dashboard that was once the pride of the organization but has since decayed into a source of universal frustration. At a previous company, ours was the "Product Health Dashboard." It was meant to be the central nervous system of our entire platform—a single pane of glass for tracking everything from user sign-ups and engagement to transaction volumes and revenue.

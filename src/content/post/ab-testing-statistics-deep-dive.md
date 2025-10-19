@@ -13,7 +13,6 @@ tags:
 image: '~/assets/images/articles/ab-testing-stats.png'
 imageAlt: 'A complex diagram showing statistical distributions and decision paths, symbolizing the science behind A/B testing.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 In the ecosystem of a major classifieds platform or a large e-commerce advertising network, every change to a ranking algorithm, every tweak to a checkout UI, or every new bidding option for an ad can represent millions in revenue gained or lost. A/B testing is not just a best practice; it is the immune system that protects the business from making disastrous decisions and the compass that illuminates the path to growth.

@@ -13,7 +13,6 @@ tags:
 image: '~/assets/images/articles/python.jpg'
 imageAlt: 'Magnifying glass hovering over a dataset, symbolizing data detective work during Exploratory Data Analysis.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 Every great data story starts with a mystery. You're handed a dataset—a digital crime scene—filled with rows and columns of silent witnesses. There are no flashing lights, no yellow tape, just a CSV file and a vague objective. Your job, before you can build a case, train a model, or point to a culprit, is to be a detective. This initial, crucial investigation is called **Exploratory Data Analysis (EDA)**.

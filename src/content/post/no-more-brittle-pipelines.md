@@ -9,7 +9,6 @@ tags:
   - best practices
 image: '~/assets/images/articles/dag_failed.png'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 dbt has revolutionized how we transform data, but it has also introduced a new challenge: how do multiple developers collaborate on complex data models without breaking anything? The answer is the same as in software development: **CI/CD (Continuous Integration / Continuous Deployment)**.

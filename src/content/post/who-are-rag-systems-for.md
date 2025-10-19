@@ -14,7 +14,6 @@ tags:
 image: '/images/articles/rag.png'
 imageAlt: 'A strategic diagram showing how RAG connects a central LLM to various enterprise knowledge sources like documents, databases, and support tickets.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 ### Executive Summary

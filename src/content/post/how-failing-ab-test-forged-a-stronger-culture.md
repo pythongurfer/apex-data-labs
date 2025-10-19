@@ -13,7 +13,6 @@ tags:
 image: '~/assets/images/articles/abtesting_.gif'
 imageAlt: 'A diagram showing a downward-trending graph being turned around into an upward-trending one, symbolizing a business turnaround.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 In every career, there are defining moments. They’re rarely the easy wins; more often, they are the complex, high-stakes challenges that test your skills, your resilience, and your ability to lead. For me, one such moment came shortly after I joined a new company, when I was handed a project that was not just stalled, but spectacularly failing.

@@ -10,10 +10,9 @@ tags:
   - rag
   - llms
   - mlops
-image: '/images/articles/ab-testing-stats.png'
+image: '/images/articles/agents_ab_testing.gif'
 imageAlt: 'Python code and data visualization graphs, representing data science and A/B testing methodologies.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 ## Introduction: Beyond Traditional A/B Testing

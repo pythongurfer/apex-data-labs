@@ -14,7 +14,6 @@ tags:
 image: '/images/articles/neural_networks.jpg'
 imageAlt: 'A diagram showing the connections between algebra, statistics, and a neural network, illustrating the core foundations.'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 Neural networks are the engines powering the modern world, from the algorithms that recommend your next movie to the complex models that can diagnose diseases. They are often portrayed as mysterious "black boxes" or artificial brains, but at their core, they are elegant mathematical structures built upon a handful of fundamental principles from algebra, statistics, and calculus.

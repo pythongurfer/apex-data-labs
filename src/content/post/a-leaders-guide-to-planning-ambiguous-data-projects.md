@@ -12,7 +12,6 @@ tags:
 image: '~/assets/images/articles/article_chaos_to_clarity.jpg'
 imageAlt: 'A visual metaphor showing a tangled, chaotic line being transformed into a clear, straight arrow, representing the process of bringing clarity to a project.'
 draft: true
-layout: '~/layouts/PostLayout.astro'
 ---
 
 In the world of data, one of the most common and challenging requests a leader can receive is a simple, yet profoundly ambiguous one. It rarely arrives as a well-defined technical specification. Instead, it manifests as a quiet erosion of confidence, a palpable sense of frustration that bubbles up in meetings. For me, at OLX, that request came in the form of a broad and challenging task from my manager: "Fix the Product Health Dashboard."

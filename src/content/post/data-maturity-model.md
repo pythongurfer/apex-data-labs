@@ -8,7 +8,6 @@ tags:
   - e-commerce
 image: '~/assets/images/articles/article_dashboards.jpg'
 draft: false
-layout: '~/layouts/PostLayout.astro'
 ---
 
 Many companies believe "being data-driven" means having a lot of dashboards. But dashboards only tell you what happened yesterday; they don't help you win tomorrow. True data maturity is measured by how decisions are made.
