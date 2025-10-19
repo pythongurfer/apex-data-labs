@@ -12,7 +12,8 @@ function getImagePath(imgPath) {
   return imgPath;
 }
 
-// Solo obtenemos la imagen para usar en metadata si es necesario
+// Procesamos la imagen y la usamos directamente en metadata
+const imageUrl = getImagePath(frontmatter.image);
 const metadata = {
   title: frontmatter.title,
   description: frontmatter.excerpt,
