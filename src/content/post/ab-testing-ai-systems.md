@@ -4,7 +4,7 @@ title: 'A/B Testing the New Frontier: RAG, Agents, and Foundational LLMs'
 excerpt: "Part 2 of our deep dive into A/B testing statistics. This guide focuses exclusively on the advanced methodologies for testing complex AI systems, including Retrieval-Augmented Generation (RAG), autonomous agents, and foundational language models."
 category: 'Data & Analytics'
 tags:
-  - A/B testing
+  - a-b-testing
   - statistics
   - ai-agents
   - rag
