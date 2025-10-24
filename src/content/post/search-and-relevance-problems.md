@@ -61,13 +61,17 @@ Before architecting a solution, we needed to deeply understand and quantify the 
 
 ### The Initial Architecture: Simple but Flawed
 
-Our v1 system was a straightforward two-step process:
-1.  A user's query would hit our backend search service.
-2.  The service would send the query to a **SolrCloud cluster**. Solr would execute the search, returning a list of organic results ranked by its default similarity algorithm, **BM25**.
-3.  Concurrently, the backend would call a separate Ads Service to retrieve up to four sponsored items.
-4.  Finally, the backend would perform a crude stitching operation: placing the four ads at the top, followed by the organic results from Solr.
+Our v1 system was a straightforward but rigid multi-step process that handled different ad types in isolated silos:
 
+1.  **Organic Retrieval**: A user’s query would hit our backend search service, which would send the query to a **SolrCloud cluster**. Solr would return a list of organic results ranked by its default text-relevance algorithm, **BM25**.
+2.  **Sponsored Retrieval**: Concurrently, the backend would call a separate Ads Service to retrieve up to four **sponsored items**—ads for which sellers paid a premium for top placement.
+3.  **Bumped Retrieval**: Another call was made to retrieve "bumped" or "upped" ads—listings that sellers paid a smaller fee to move higher in the organic-only ranking.
+4.  **Crude Stitching**: Finally, the backend would perform a crude, rules-based stitching operation:
+    *   Place the four sponsored ads at the absolute top (positions 1-4).
+    *   Insert the bumped ads at predefined positions within the organic results (e.g., positions 5, 10, 15).
+    *   Fill the remaining slots with the organic results.
 
+This system was predictable but completely blind to the actual relevance of the promoted ads for a given query. It was this rigidity that we aimed to replace.
 
 ### Quantifying the Pain: The Data-Driven Case for Change
 
@@ -92,9 +96,15 @@ The heart of any machine learning system is the data it learns from. Our first a
 
 ### Step 2.1: The Data - Indexing Features in Solr and the Feature Store
 
-Our data pipelines, built using Apache Spark on AWS EMR, processed and joined information from multiple sources: search logs, user interaction data, seller data, and monetization logs. The output is a rich set of features available for every single ad in our catalog.
+Our data pipelines, built using Apache Spark on AWS EMR, were the factory floor for our features. They processed and joined information from multiple sources: raw search logs from Kafka, user interaction data (clicks, contacts) from our event tracking system, and monetization logs from the billing database. The raw data landed in our S3-based data lake, which served as the single source of truth.
 
-Below is a simplified visualization of how this feature data might look in our Feature Store (e.g., Redis or DynamoDB) at indexing time. This is the "raw material" our system works with.
+The output of these Spark jobs was a rich set of features for every ad. These features were then pushed to two destinations:
+1.  **Offline Storage (S3/Parquet)**: The full, historical feature set was stored in an aggregated, query-log format, ready for model training.
+2.  **Online Feature Store (Redis/ElastiCache)**: A subset of the most critical, low-latency features was pushed to a Redis cluster. This store was optimized for rapid retrieval (p99 < 10ms) during the real-time re-ranking process.
+
+This dual-storage approach is a common pattern: use a scalable, cost-effective data lake for batch processing and model training, and a high-performance key-value store for serving features in production.
+
+Below is a simplified visualization of how this feature data might look in our online Feature Store at serving time.
 
 **Visualization: Feature Data for Indexed Ads**
 
@@ -158,6 +168,8 @@ Below is a simplified visualization of how this feature data might look in our F
 
 This was the most critical conceptual step. If we simply trained the model to predict the historical `contact_rate`, it would learn to ignore sponsored ads. To teach it to blend, we had to create a new, unified target variable—the `objective_label`—that represented our combined business strategy.
 
+**The Role of `query_id`**: You are correct to ask about `query_id`. It is not a *feature* of a document, so it doesn't belong in the feature store table. Instead, `query_id` is the **grouping key** used to construct the training data itself. For the LambdaMART algorithm to work, it needs to see all the candidate documents that were shown for a specific query, along with their feature vectors and the final outcome (our `objective_label`). The `query_id` ties them all together, forming the "query-document groups" that are the fundamental input for any LTR model.
+
 Our logic was to create a new target that rewarded both successful user connections and successful monetization events. For this, we analyzed historical data where we knew the outcome of a search.
 
 The visualization below shows the data we prepared for the **re-ranking model**. This is the "textbook" from which our LambdaMART model will learn.
@@ -206,13 +218,48 @@ The visualization below shows the data we prepared for the **re-ranking model**.
 
 *This table illustrates the core of our multi-objective strategy. We created a new `objective_label` that explicitly teaches the model that a **relevant, successful sponsored ad (AD-102) can be more valuable to the entire ecosystem than even a highly relevant organic ad (AD-101).** This is how the model learns to blend.*
 
-### Step 2.3: The Learning Algorithm - Training LambdaMART
+#### Step 2.3: The Art and Science of Choosing the Blend
 
-With our feature-rich dataset and strategically designed objective label, it was time to train the ranking model. We chose **LambdaMART** because it is a state-of-the-art algorithm specifically designed for ranking problems and is excellent at modeling complex, non-linear interactions between features.
+A critical question is: how did we land on the `+1.5` bonus for a successful sponsored ad? These weights are not arbitrary; they are **business strategy encoded as a model hyperparameter**. The process of choosing them was iterative and data-driven, involving both offline simulation and online testing.
 
-* **Tools:** We used Python and the `lightgbm` library on SageMaker. The LambdaMART model was tuned using Bayesian optimization on SageMaker. Key hyperparameters we focused on were `num_leaves`, `learning_rate`, and `min_child_samples` to balance model complexity and prevent overfitting.
-* **Process:** The LambdaMART algorithm iteratively builds an ensemble of decision trees. In each step, it adjusts its internal structure to maximize the **NDCG (Normalized Discounted Cumulative Gain)** score, calculated against our new `objective_label`.
-* **Result:** The final output is a single, serialized model file (`model.bst`). This file is the "brain" of our ranking system, containing the complex logic for scoring any ad for any query.
+1.  **Hypothesis Formulation**: We started by translating the business goal into a quantifiable hypothesis. The product team hypothesized that "a successful monetized transaction should be considered roughly 50-75% as valuable as a top-tier organic connection." This gave us a starting range for the bonus value.
+
+2.  **Offline Simulation & Grid Search**: We generated multiple training datasets, each with a different bonus weight for the `objective_label` (e.g., `+1.0`, `+1.25`, `+1.5`, `+1.75`). We then trained a separate LambdaMART model for each dataset. Using a holdout dataset of historical search data, we ran simulations for each model to predict what the key business metrics would have been.
+
+| Bonus Weight | Simulated Contact Rate | Simulated Revenue per Search | Notes |
+| :--- | :--- | :--- | :--- |
+| +1.0 | +8% | +15% | Conservative. Improves relevance but leaves money on the table. |
+| **+1.5** | **+7%** | **+22%** | **The sweet spot. A minor dip in relevance for a significant revenue gain.** |
+| +2.0 | +2% | +28% | Too aggressive. The model starts prioritizing monetization too heavily, harming the user experience. |
+
+3.  **Online A/B Testing**: The offline simulation pointed to `+1.5` as the optimal trade-off. We then deployed this model to a small percentage of live traffic in an A/B test against the old system. The real-world results closely matched the simulation (+7% contact rate, +22% revenue), giving us the confidence to roll it out globally. This iterative process of offline simulation and online validation is key to tuning multi-objective systems.
+
+### Step 2.4: The Learning Algorithm - Why LambdaMART (via LGBMRanker)?
+
+With our feature-rich dataset and strategically designed objective label, it was time to train the ranking model. We chose the **LambdaMART** algorithm, specifically using the **LGBMRanker** implementation from the popular LightGBM library. This choice was not arbitrary; it was a strategic decision based on several critical advantages that set it apart from more generic machine learning algorithms like Random Forest or standard Gradient Boosted Trees (GBT).
+
+The core reasons for this choice fall into two categories: its listwise approach and its direct optimization of ranking metrics.
+
+*   **Pointwise vs. Listwise: A Paradigm Shift**
+    *   Many traditional ML models are *pointwise*. They look at a single document and try to predict a score (like "what is the probability this document will be clicked?"). They don't know about the other documents in the search results. This is like judging a runner based only on their personal best time, without seeing the race.
+    *   **LambdaMART**, by contrast, is a *listwise* algorithm. It looks at the entire list of candidate documents for a given query at once. Its goal is not to predict the exact score of any single document, but to find the optimal *ordering* of the entire list.
+
+*   **Directly Optimizing for Ranking: The "Lambda" Secret**
+    *   This is the most important reason. The "Lambda" in LambdaMART refers to "Lambda Gradients." Instead of using standard gradients like Mean Squared Error (which measures prediction accuracy), LambdaMART uses a special gradient that is mathematically tied to a ranking metric, typically **NDCG (Normalized Discounted Cumulative Gain)**.
+    *   This means LambdaMART is purpose-built for ranking. It doesn't waste effort trying to get the absolute scores perfect; it focuses all its power on getting the relative order right, which is exactly what a search engine needs.
+
+In short, we chose LambdaMART because it is a specialized tool that directly solves the ranking problem by optimizing a true ranking metric, making it far more effective than general-purpose models for this specific task. The `LGBMRanker` provides a famously scalable and memory-efficient implementation, capable of training on the massive query-grouped datasets our system produced (tens of terabytes of raw logs, hundreds of gigabytes of training data) in a reasonable timeframe.
+
+### Step 2.5: The Cadence - Data Freshness and Model Retraining
+
+A critical aspect of maintaining model performance is ensuring that the model is regularly updated with fresh data. We established a **weekly cadence** for retraining the model. This involves:
+
+1.  **Data Ingestion**: Every week, new search log data is ingested and processed through our feature engineering pipeline.
+2.  **Model Training**: A new LambdaMART model is trained on this fresh data, using the same procedures and hyperparameters that proved successful previously.
+3.  **Validation**: The new model is validated against our holdout set to ensure it meets our performance benchmarks.
+4.  **Deployment**: If the model passes validation, it is deployed to production, replacing the old model.
+
+This regular refresh cycle ensures that our model adapts to any changes in user behavior or market conditions, maintaining its relevance and effectiveness.
 
 ---
 
@@ -220,7 +267,15 @@ With our feature-rich dataset and strategically designed objective label, it was
 
 A trained model is useless without a robust, low-latency architecture to serve it. We designed a microservices-based system on AWS to handle real-time inference.
 
+### Deployment Strategy: A Country-by-Country Rollout
 
+Launching a system this critical across 30+ countries simultaneously would have been incredibly risky. We adopted a phased, country-by-country rollout strategy that allowed us to learn and de-risk the process.
+
+1.  **Canary Market (Portugal)**: We first launched in a medium-sized, representative market: Portugal. This allowed us to validate the entire pipeline, from feature generation to model serving and monitoring, in a controlled environment.
+2.  **Fast-Follow Markets (Poland, Romania)**: After a successful two-week run in Portugal where we confirmed the +7% contact rate and +22% revenue uplift, we moved to our larger, more critical EU markets. Each country received its own dedicated LambdaMART model, trained specifically on its own data to capture local user behavior and price sensitivity.
+3.  **Wider Rollout (Ukraine, Uzbekistan, Kazakhstan, etc.)**: With the system proven and the deployment process refined, we accelerated the rollout across the remaining countries over the next quarter.
+
+This phased approach was critical for building stakeholder confidence and ensuring operational stability.
 
 **The Real-Time Inference Flow (sub-200ms):**
 
@@ -239,69 +294,154 @@ Where $S_d$ is the final score for the document $d$, $\alpha$ is the learning ra
 
 ---
 
-## Chapter 4: Operational Excellence - Monitoring and Observability
+## Chapter 4: A Deep Dive into Production ML Observability
 
-Deploying a machine learning model into a critical path like search requires a deep commitment to monitoring. Instead of complex code, let's visualize what our operational dashboard in Grafana looks like. This dashboard is our real-time view into the health of the entire system.
+Deploying a machine learning model into a critical, high-throughput system like search is not the end of the project; it is the beginning of a continuous operational cycle. A model is not a static piece of code; it is a dynamic system whose performance is intrinsically linked to the ever-changing data it consumes. At OLX, handling over **500 million queries per day** across the EU region, a commitment to deep, multi-faceted monitoring was non-negotiable.
 
-**Visualization: Live System Health Dashboard (Grafana)**
-| Metric Name | Current Value | Target / Threshold | Trend (1h) |
-|:---|:---:|:---|:---:|
-| **[North Star] Contact Rate per Search** | 0.185 | > 0.180 | 📈 (Up) |
-| **[Business] Revenue per Search (€)** | 0.042 | > 0.040 | 📈 (Up) |
-| **[User Exp.] Offline NDCG (Sampled)**| 0.89 | > 0.88 | 📉 (Down) |
-| **[Ops] p99 Search Latency (ms)** | 185ms | < 200ms | ✅ (Stable) |
-| **[Ops] API Error Rate (%)** | 0.05% | < 0.1% | ✅ (Stable) |
-| **[Ops] SageMaker p95 Latency (ms)**| 45ms | < 50ms | ✅ (Stable) |
+Our philosophy is that you cannot trust what you cannot see. We built our observability strategy on three pillars, powered by a stack of **Prometheus** for metrics collection and **Grafana** for visualization.
 
-*This dashboard provides an at-a-glance view for both product managers and engineers. We have alerts configured in Alertmanager (part of the Prometheus ecosystem) that trigger if any of these metrics breach their thresholds. We also established critical **guardrail metrics** to prevent unintended consequences, including **seller churn rate** (to ensure we weren't angering non-paying sellers), **zero-result search rate**, and **result diversity** (to avoid over-promoting a small set of popular items).*
+**Monitoring Architecture:**
+![Monitoring Architecture Diagram](~/assets/images/articles/ranking_architecture.png)
+*A diagram showing how our Java Backend, SageMaker Endpoint, and data pipelines export metrics to Prometheus, which then serves them to Grafana dashboards and Alertmanager for notifications.*
+
+### A Taxonomy of Production ML Failures
+
+Before diving into our dashboards, it's crucial to understand what can go wrong. Production ML failures are often silent and insidious, degrading user experience and business outcomes long before causing a traditional `500` error.
+
+1.  **Data Drift**: This is the most common and dangerous failure mode.
+    *   **Covariate Drift (Feature Drift)**: The statistical distribution of incoming, live data changes compared to the data the model was trained on. For example, a new version of the mobile app starts sending image quality scores on a scale of 0-1 instead of 0-100. The model, never having seen these values, will produce nonsensical scores.
+    *   **Concept Drift**: The relationship between the features and the target variable changes. For example, a sudden economic shift might make users far more price-sensitive, meaning the `price` feature should have a much higher negative impact on `contact_rate` than the model originally learned.
+
+2.  **Upstream Data Failures**: The model itself is fine, but the data feeding it is broken.
+    *   **Stale Features**: The daily Spark jobs that refresh our Redis feature store fail. The model is now making predictions on 2-day-old data, missing recent trends.
+    *   **Broken Feature Logic**: A code change in an upstream microservice introduces a bug, and suddenly the `seller_rating` for all new sellers is `null`.
+
+3.  **Model or Infrastructure Failures**: More traditional software bugs.
+    *   **Model Bug**: A new model is deployed that has a bug (e.g., a `NaN` prediction for a certain combination of features) that wasn't caught in offline testing.
+    *   **Infrastructure Issues**: The SageMaker endpoint experiences high latency, or the Redis cluster has a network partition.
+
+Our three pillars of monitoring are designed to detect all of these failure modes.
+
+### Pillar 1: Business & Product Metrics (The "Why")
+
+This dashboard is for product managers and business leaders. It answers the question: "Is the model achieving its business objectives?"
+
+| Metric Name | Current Value | Target / Threshold | Trend (1h) | Description & Failure Mode Detected |
+|:---|:---:|:---|:---:|:---|
+| **[North Star] Contact Rate per Search** | 0.185 | > 0.180 | 📈 (Up) | The ultimate measure of marketplace liquidity. A slow decline could indicate **concept drift**. |
+| **[Business] Revenue per Search (€)** | 0.042 | > 0.040 | 📈 (Up) | Confirms the monetization objective is being met. |
+| **[Guardrail] Seller Churn Rate** | 1.2% | < 1.5% | ✅ (Stable) | Are we angering non-paying sellers? A sudden spike could mean the model is unfairly burying their items. |
+| **[Guardrail] Result Diversity (Gini)** | 0.45 | < 0.6 | ✅ (Stable) | Measures how concentrated the top results are. A rising Gini coefficient indicates a **feedback loop**, where the model is over-promoting a few popular items. |
+
+### Pillar 2: Model Performance Metrics (The "What")
+
+This dashboard is for data scientists. It answers the question: "Is the model behaving as we expect it to?"
+
+| Metric Name | Current Value | Target / Threshold | Trend (1h) | Description & Failure Mode Detected |
+|:---|:---:|:---|:---:|:---|
+| **Online vs. Offline NDCG** | 0.89 (Online) vs 0.91 (Offline) | Delta < 5% | ✅ (Stable) | We sample 1% of live traffic, log the features and outcomes, and calculate NDCG. If this "Online NDCG" diverges significantly from the NDCG calculated on the test set ("Offline NDCG"), it's a strong signal of **data drift**. |
+| **Feature Drift (Max PSI)** | 0.08 (`seller_rating`) | Alert if > 0.2 | ✅ (Stable) | We calculate the **Population Stability Index (PSI)** for each key feature by comparing the distribution of live feature values against the training set distribution. A PSI > 0.2 on any feature triggers an alert, pointing directly to **covariate drift**. |
+| **Prediction Score Distribution** | p50: 4.5, p90: 8.2 | Alert on >10% shift | ✅ (Stable) | We track the distribution of the final scores from the SageMaker endpoint. A sudden shift in this distribution (e.g., the average score drops from 5.0 to 2.0) means the model's output has fundamentally changed, likely due to **data drift** or a **model bug**. |
+| **Missing Feature Rate** | 0.1% | < 0.5% | ✅ (Stable) | Tracks the percentage of times our Java service has to substitute default values because a feature was missing in Redis. A spike indicates an **upstream data failure**. |
+
+### Pillar 3: Operational & System Health (The "How")
+
+This dashboard is for the engineers. It answers the question: "Is the system running reliably and performantly?"
+
+| Metric Name | Current Value | Target / Threshold | Trend (1h) | Description & Failure Mode Detected |
+|:---|:---:|:---|:---:|:---|
+| **End-to-End p99 Latency** | 185ms | < 200ms | ✅ (Stable) | The total time from user request to response. This is our user-facing SLO. |
+| **Feature Hydration p99 Latency** | 15ms | < 25ms | ✅ (Stable) | Latency of the parallel Redis calls. A spike points to a problem with Redis or the network. |
+| **SageMaker p95 Latency** | 45ms | < 50ms | ✅ (Stable) | Latency of the model inference step. Helps isolate bottlenecks to the model itself. |
+| **API Error Rate (%)** | 0.05% | < 0.1% | ✅ (Stable) | Tracks HTTP `5xx` errors. A spike indicates a hard **infrastructure or model bug**. |
+| **Circuit Breaker State** | `CLOSED` | - | ✅ (Stable) | We export the state of our circuit breakers. If one `OPENS`, it means a downstream service (Redis/SageMaker) is failing, and we are gracefully degrading. This is a critical alert. |
+
+By combining these three pillars, we create a defense-in-depth monitoring strategy. A drop in the North Star metric (Pillar 1) might be explained by a rising PSI on a key feature (Pillar 2), which is ultimately traced back to a failing upstream data pipeline (Pillar 3). This holistic view is essential for rapidly diagnosing and fixing the silent failures that are common in large-scale ML systems.
 
 ---
 
-## Chapter 5: The Broader Search Ecosystem
+## Chapter 5: The Road Ahead - Horizons for Future Work
 
-A great ranking algorithm is the core, but a world-class search experience is an ecosystem of features working in harmony.
+While this project has achieved its initial goals, the beauty of machine learning and search is that there is always room for improvement. We see several exciting horizons for future work:
 
-* **Solr Customization:** While our heavy re-ranking logic moved to LTR, Solr remains a powerful, extensible platform. We have developed **custom Java Search Components and Query Parsers** to handle business-specific logic during the candidate retrieval phase. For example, a component can apply hard filters (like location) or boost certain categories before the results are even sent to the LTR model, making the entire process more efficient.
+*   **Horizon 1 (Incremental Improvements):** Continuously monitor, retrain, and refine the model. Small, consistent improvements can have a big impact over time.
+*   **Horizon 2 (Feature Expansion):** Explore new features and data sources. For example, incorporating **user behavior data** (e.g., time on site, pages per session) could further improve relevance.
+*   **Horizon 3 (Dynamic Optimization):** Explore Reinforcement Learning to dynamically adjust the strategy between liquidity and monetization.
 
-* **Popular Searches & Bias:** A "Popular Searches" feature is an easy win for engagement. However, it must be used with caution as it creates a **popularity feedback loop**, where already popular items or queries become even more dominant, hiding the "long tail" of the catalog. We mitigate this by blending popular searches with personalized suggestions.
+### Conclusion
 
-* **The Holy Trinity of Query Assistance:** To reduce friction, the core ranking engine must be supported by:
-    * **Autosuggest/Autocomplete:** Suggests complete queries as the user types.
-    * **Autocorrect/Spell-Correction:** Fixes typos to prevent zero-result searches.
-    * **Semantic Search:** This is the next frontier. We are actively working on generating vector embeddings for our entire catalog using models like S-BERT. By implementing an Approximate Nearest Neighbor (ANN) search index, we can understand the *meaning* of a query, not just its keywords.
+In this article, we have taken you on a detailed journey through the complex but rewarding process of transforming a rigid, outdated ad ranking system into a dynamic, intelligent, multi-objective optimization powerhouse using Solr and LambdaMART. We've covered the challenges, the solutions, the architecture, and the monitoring systems that make it all work.
 
----
+The results speak for themselves:
+*   A significant uplift in our North Star metric, the buyer-to-seller contact rate.
+*   A healthy increase in revenue per search, benefiting our business and our sellers.
+*   A robust, scalable architecture on AWS that can serve real-time rankings with sub-200ms latency.
+*   A comprehensive observability stack that ensures the system operates smoothly and any issues are quickly detected and resolved.
 
-## Chapter 6: The Vision - Roadmap and the Saturation of Gains
-
-### Business Value Unleashed
-
-The implementation of this multi-objective ranking system was a watershed moment for our platform. It moved search from a blunt utility to a sophisticated optimization engine. The results were dramatic:
-* We **increased our North Star metric, the contact rate, by 7% (from a baseline of 0.172 to 0.185)**.
-* We simultaneously **increased overall revenue per search by 22% (from €0.034 to €0.042)** by showing more relevant ads more effectively.
-* We significantly **increased seller satisfaction**, as their advertising budget was now being spent far more efficiently.
-
-### The Law of Diminishing Returns
-
-It's critical to acknowledge the **saturation of improvement**. The initial leap from a rules-based system to a mature LTR model yields massive gains. Subsequent improvements become incremental. This is when the strategic focus must shift from revolutionary projects to continuous optimization.
-
-### Our Future Roadmap
-
-Our roadmap reflects this shift, moving from foundational improvements to next-generation capabilities.
-
-* **Horizon 1 (Continuous Optimization):**
-    * **Automated Re-training Pipelines:** Building a full MLOps pipeline to automatically re-train, validate, and deploy new models weekly.
-    * **Feature A/B Testing Framework:** A robust system to continuously experiment with new features and measure their marginal impact.
-
-* **Horizon 2 (Semantic Understanding):**
-    * **Full Rollout of Vector Search:** Integrate our semantic search capabilities to handle zero-result queries and improve discovery for long-tail needs.
-    * **Personalized Ranking:** Incorporate real-time user embeddings into the LTR model to make rankings personalized for each individual user's current intent.
-
-* **Horizon 3 (Dynamic Optimization):**
-    * **Explore Reinforcement Learning:** Investigate models that can dynamically adjust the strategic weights between liquidity and monetization in real time based on market conditions, inventory levels, or even the time of day, moving from a fixed strategy to a fully adaptive one.
+This project is a testament to the power of modern data science and engineering practices. By leveraging advanced machine learning techniques and building a flexible, scalable architecture, we have created a system that not only meets the current needs of our marketplace but is also poised for future growth and enhancement.
 
 ---
 
-## Conclusion
+## Chapter 6: Tying it All Together - A Sample Repository Structure
 
-The journey from a fixed-slot ad system to a dynamic, multi-objective ranking engine is far more than a technical upgrade—it's a fundamental shift in product and business strategy. It requires a deep alignment across teams and a commitment to data-driven decision-making. By building a unified system that learns from data, we not only resolved the conflict between marketplace liquidity and monetization but also created a powerful, sustainable competitive advantage and a core engine for the future growth of our marketplace.
+Bringing a complex system like this to life requires more than just disparate scripts; it requires a well-organized codebase. While there are many ways to structure such a project, a monorepo approach is often effective as it keeps all related components in one place, simplifying dependency management and cross-team collaboration.
+
+Here is a conceptual layout of what the repository for our ranking system might look like:
+
+```plaintext
+ranking-platform/
+├── 📄 .gitlab-ci.yml         # CI/CD pipeline definitions for building, testing, and deploying all components
+├── 📄 README.md
+│
+├── 📁 docs/
+│   ├── 📄 architecture.md     # High-level diagrams and decision records
+│   └── 📄 on-boarding.md      # Guide for new engineers
+│
+├── 📁 feature-factory/        # Spark jobs for batch feature creation
+│   ├── 📁 src/main/scala/com/olx/ranking/
+│   │   ├── 📄 AdFeatures.scala      # Job to calculate features related to the ad itself (age, image quality)
+│   │   ├── 📄 SellerFeatures.scala  # Job to calculate seller-level features (rating, tenure)
+│   │   └── 📄 InteractionFeatures.scala # Job to calculate historical user interactions (CTR, contact rate)
+│   └── 📄 pom.xml               # Maven build file for the Spark jobs
+│
+├── 📁 infra/                  # Infrastructure as Code (Terraform)
+│   ├── 📁 modules/              # Reusable Terraform modules
+│   ├── 📁 envs/
+│   │   ├── 📁 prod/
+│   │   │   └── 📄 main.tf       # Production environment infrastructure (EKS, SageMaker, Redis)
+│   │   └── 📁 staging/
+│   │       └── 📄 main.tf       # Staging environment for testing
+│
+├── 📁 model-training/         # Python code for training the LambdaMART model
+│   ├── 📁 notebooks/            # Jupyter notebooks for exploratory data analysis
+│   ├── 📁 src/
+│   │   ├── 📄 train.py          # Main script to run model training, validation, and serialization
+│   │   ├── 📄 features.py       # Defines the feature set used by the model
+│   │   └── 📄 tune.py           # Hyperparameter tuning script
+│   ├── 📄 Dockerfile            # To containerize the training environment
+│   └── 📄 requirements.txt    # Python dependencies (lightgbm, scikit-learn, boto3)
+│
+├── 📁 monitoring/             # Observability configurations
+│   ├── 📁 dashboards/
+│   │   ├── 📄 business_kpis.json      # Grafana dashboard definition for business metrics
+│   │   ├── 📄 model_performance.json  # Grafana dashboard for model metrics (NDCG, PSI)
+│   │   └── 📄 system_health.json      # Grafana dashboard for operational metrics (latency, errors)
+│   └── 📁 alerts/
+│       └── 📄 ranking_rules.yml     # Prometheus alerting rules (e.g., high latency, circuit breaker open)
+│
+├── 📁 ranking-service/        # The real-time Java re-ranking microservice
+│   ├── 📁 src/main/java/com/olx/ranking/
+│   │   ├── 📄 RankingController.java  # The main API endpoint
+│   │   ├── 📄 SolrClient.java         # Logic for Phase 1 candidate retrieval
+│   │   ├── 📄 FeatureHydrator.java    # Logic for Phase 2 feature enrichment from Redis
+│   │   └── 📄 SageMakerInvoker.java   # Logic for Phase 3 re-ranking via SageMaker
+│   ├── 📄 pom.xml               # Maven build file with dependencies (SolrJ, Lettuce, Resilience4j)
+│   └── 📄 Dockerfile            # To containerize the Java service for deployment on EKS
+│
+└── 📁 solr-config/            # Configuration for the SolrCloud cluster
+    └── 📁 conf/
+        ├── 📄 schema.xml          # Defines the fields, types, and indexing rules for ads
+        └── 📄 solrconfig.xml      # Core Solr configuration, including request handlers
+```
+
+This structure separates each major component into its own directory while keeping them in a single repository. The CI/CD pipeline in `.gitlab-ci.yml` would be responsible for orchestrating the build, test, and deployment of each piece, ensuring that a change in the feature factory, for example, could trigger a new model training run, which in turn could trigger a deployment of the new model to SageMaker.
