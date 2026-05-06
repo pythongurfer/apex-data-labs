@@ -3,6 +3,11 @@
   command = "npm run build"
 [build.processing.html]
   pretty_urls = false
+
+[[redirects]]
+  from = "/articles/mmm-google-2026-geo-testing-incrementalidad-offline"
+  to = "/articles/marketing-mix-modeling-2026-google-meridian-geo-testing-incrementality"
+  status = 301
 [[headers]]
   for = "/_astro/*"
   [headers.values]
