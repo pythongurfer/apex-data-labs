@@ -12,7 +12,7 @@ tags:
   - Causal Inference
   - Bayesian Modeling
   - Budget Optimization
-image: '~/assets/images/articles/real-time-ml-pipeline.jpg'
+image: '~/assets/images/articles/MMM.png'
 imageAlt: 'Analytical budget allocation framework across channels and geographies with response curves.'
 author: 'Anika Rosenzuaig'
 tableOfContents: true
