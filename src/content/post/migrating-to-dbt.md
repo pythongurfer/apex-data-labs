@@ -11,7 +11,7 @@ tags:
   - airflow
   - monolith
   - kimball
-image: '/images/articles/dbt.png'
+image: '~/assets/images/articles/dbt.png'
 imageAlt: 'A diagram showing chaotic, tangled data pipelines being transformed into a clean, layered, and organized data architecture.'
 draft: false
 ---

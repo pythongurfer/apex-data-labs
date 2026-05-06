@@ -1,6 +1,8 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import { findImage } from '~/utils/images';
 
 export const prerender = true;
 
@@ -25,6 +27,12 @@ export const getStaticPaths = (async () => {
 });
 
 const { tag, posts } = Astro.props;
+const taggedPosts = await Promise.all(
+  posts.map(async (post) => ({
+    post,
+    image: await findImage(post.data.image),
+  }))
+);
 
 const metadata = {
   title: `Articles tagged with "${tag}"`,
@@ -41,19 +49,28 @@ const metadata = {
     </div>
     
     <ul class="grid gap-8">
-      {posts.map((post) => (
+      {taggedPosts.map(({ post, image }) => (
         <li class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <a href={`/articles/${post.slug}`}>
-            {post.data.image && (
-              <img 
-                src={post.data.image.startsWith('~/assets') 
-                  ? post.data.image.replace('~/assets', '') 
-                  : post.data.image} 
-                alt={post.data.imageAlt || post.data.title || ''} 
-                class="rounded-md mb-4 w-full h-40 object-cover" 
+            {image && typeof image !== 'string' ? (
+              <Image
+                src={image}
+                alt={post.data.imageAlt || post.data.title || ''}
+                class="rounded-md mb-4 w-full h-40 object-cover"
+                widths={[400, 800]}
+                width={800}
+                sizes="(max-width: 768px) 100vw, 896px"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : image ? (
+              <img
+                src={image}
+                alt={post.data.imageAlt || post.data.title || ''}
+                class="rounded-md mb-4 w-full h-40 object-cover"
                 onerror="this.onerror=null; this.src='/placeholder-image.jpg';"
               />
-            )}
+            ) : null}
             <div class="p-6">
               <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{post.data.title}</h3>
               <p class="text-gray-600 dark:text-gray-400">{post.data.excerpt}</p>

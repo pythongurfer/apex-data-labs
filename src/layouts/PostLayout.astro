@@ -1,19 +1,15 @@
 ---
 import Layout from '~/layouts/Layout.astro';
+import { Image } from 'astro:assets';
 import { SITE } from 'astrowind:config';
+import { findImage } from '~/utils/images';
 
 const { frontmatter } = Astro.props;
-
-function getImagePath(imgPath: string | undefined) {
-  if (!imgPath) return '/placeholder-image.jpg';
-  if (imgPath.startsWith('~/assets')) {
-    // Convert Astro/Vite asset path to public path
-    return imgPath.replace('~/assets', '');
-  }
-  return imgPath;
-}
-
-let imageUrl = getImagePath(frontmatter.image);
+const resolvedImage = await findImage(frontmatter.image);
+const imageUrl =
+  typeof resolvedImage === 'string'
+    ? resolvedImage
+    : resolvedImage?.src || '/placeholder-image.jpg';
 const canonical = new URL(Astro.url.pathname, SITE.site).toString();
 const absoluteImage = new URL(imageUrl, SITE.site).toString();
 
@@ -82,12 +78,27 @@ const articleStructuredData = {
       )}
     </header>
     
-    <img 
-      src={getImagePath(frontmatter.image)} 
-      alt={frontmatter.imageAlt || frontmatter.title} 
-      class="rounded-lg mb-8 w-full aspect-video object-cover"
-      onerror="this.onerror=null; this.src='/placeholder-image.jpg';" 
-    />
+    {
+      resolvedImage && typeof resolvedImage !== 'string' ? (
+        <Image
+          src={resolvedImage}
+          alt={frontmatter.imageAlt || frontmatter.title}
+          class="rounded-lg mb-8 w-full aspect-video object-cover"
+          widths={[800, 1200]}
+          width={1200}
+          sizes="(max-width: 768px) 100vw, 768px"
+          loading="eager"
+          decoding="async"
+        />
+      ) : (
+        <img
+          src={imageUrl}
+          alt={frontmatter.imageAlt || frontmatter.title}
+          class="rounded-lg mb-8 w-full aspect-video object-cover"
+          onerror="this.onerror=null; this.src='/placeholder-image.jpg';"
+        />
+      )
+    }
     
     <div class="prose dark:prose-invert max-w-none" id="article-content">
       <slot />

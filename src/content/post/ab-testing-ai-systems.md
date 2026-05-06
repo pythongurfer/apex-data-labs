@@ -10,7 +10,7 @@ tags:
   - rag
   - llms
   - mlops
-image: '/images/articles/agents_ab_testing.gif'
+image: '~/assets/images/articles/agents_ab_testing.gif'
 imageAlt: 'Python code and data visualization graphs, representing data science and A/B testing methodologies.'
 draft: true
 ---

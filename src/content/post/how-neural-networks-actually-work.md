@@ -11,7 +11,7 @@ tags:
   - statistics
   - backpropagation
   - deep learning
-image: '/images/articles/neural_networks.jpg'
+image: '~/assets/images/articles/neural_networks.jpg'
 imageAlt: 'A diagram showing the connections between algebra, statistics, and a neural network, illustrating the core foundations.'
 draft: false
 ---
