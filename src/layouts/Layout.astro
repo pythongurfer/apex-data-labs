@@ -3,6 +3,7 @@
 import '~/assets/styles/tailwind.css';
 import '/public/styles/global.css';
 
+import { SITE } from 'astrowind:config';
 import { I18N } from 'astrowind:config';
 
 import Header from '~/components/widgets/Header.astro'; // ADDED
@@ -25,6 +26,35 @@ export interface Props {
 
 const { metadata = {} } = Astro.props;
 const { language, textDirection } = I18N;
+const siteStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE.site}/#website`,
+      url: SITE.site,
+      name: SITE.name,
+      inLanguage: language,
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE.site}/#organization`,
+      name: 'Apex Data Labs',
+      url: SITE.site,
+      sameAs: ['https://github.com/pythongurfer/apex-data-labs'],
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE.site}/#person`,
+      name: 'Anika Rosenzuaig',
+      url: `${SITE.site}/about`,
+      sameAs: ['https://www.linkedin.com/in/anikarosenzuaig/', 'https://github.com/pythongurfer'],
+      worksFor: {
+        '@id': `${SITE.site}/#organization`,
+      },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -36,6 +66,7 @@ const { language, textDirection } = I18N;
     <ApplyColorMode />
     <Metadata {...metadata} />
     <meta charset="utf-8" />
+    <script type="application/ld+json" set:html={JSON.stringify(siteStructuredData)} />
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
     <Analytics />

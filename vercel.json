@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/articles/mmm-google-2026-geo-testing-incrementalidad-offline",
+      "destination": "/articles/marketing-mix-modeling-2026-google-meridian-geo-testing-incrementality",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",

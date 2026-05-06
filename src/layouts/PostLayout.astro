@@ -1,9 +1,10 @@
 ---
 import Layout from '~/layouts/Layout.astro';
+import { SITE } from 'astrowind:config';
 
 const { frontmatter } = Astro.props;
 
-function getImagePath(imgPath) {
+function getImagePath(imgPath: string | undefined) {
   if (!imgPath) return '/placeholder-image.jpg';
   if (imgPath.startsWith('~/assets')) {
     // Convert Astro/Vite asset path to public path
@@ -12,11 +13,49 @@ function getImagePath(imgPath) {
   return imgPath;
 }
 
-// Procesamos la imagen y la usamos directamente en metadata
-const imageUrl = getImagePath(frontmatter.image);
+let imageUrl = getImagePath(frontmatter.image);
+const canonical = new URL(Astro.url.pathname, SITE.site).toString();
+const absoluteImage = new URL(imageUrl, SITE.site).toString();
+
 const metadata = {
   title: frontmatter.title,
   description: frontmatter.excerpt,
+  canonical,
+  openGraph: {
+    type: 'article',
+    url: canonical,
+    images: [
+      {
+        url: frontmatter.image || imageUrl,
+        alt: frontmatter.imageAlt || frontmatter.title,
+      },
+    ],
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+  },
+};
+
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: frontmatter.title,
+  description: frontmatter.excerpt || '',
+  datePublished: frontmatter.publishDate,
+  dateModified: frontmatter.updateDate || frontmatter.publishDate,
+  image: [absoluteImage],
+  mainEntityOfPage: canonical,
+  author: {
+    '@type': 'Person',
+    name: frontmatter.author || 'Anika Rosenzuaig',
+    url: new URL('/about', SITE.site).toString(),
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Apex Data Labs',
+    url: SITE.site,
+  },
+  keywords: frontmatter.tags || [],
 };
 ---
 
@@ -32,7 +71,7 @@ const metadata = {
       
       {frontmatter.tags && frontmatter.tags.length > 0 && (
         <div class="mt-4 flex flex-wrap gap-2 justify-center">
-          {frontmatter.tags.map((tag) => (
+          {frontmatter.tags.map((tag: string) => (
             <a href={`/tags/${tag}`} class="inline-block">
               <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800">
                 {tag}
@@ -55,29 +94,7 @@ const metadata = {
     </div>
   </article>
   
-  <script type="application/ld+json" is:inline>
-    {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "{frontmatter.title}",
-      "description": "{frontmatter.excerpt || ''}",
-      "datePublished": "{frontmatter.publishDate}",
-      "image": "{Astro.url.origin + imageUrl}",
-      "author": {
-        "@type": "Person",
-        "name": "Anika Rosenzuaig",
-        "url": "{Astro.url.origin}/about"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Apex Data Labs",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "{Astro.url.origin}/favicon.svg"
-        }
-      }
-    }
-  </script>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
   <script is:inline src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
   <script is:inline src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>

@@ -39,6 +39,6 @@ export const footerData = {
 
   // Nota de pie de página actualizada
   footNote: `
-    &copy; ${new Date().getFullYear()} Apex Data Labs. All rights reserved.
+    &copy; 2026 Apex Data Labs. Todos los derechos reservados.
   `,
 };
